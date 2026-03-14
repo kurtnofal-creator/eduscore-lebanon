@@ -5,6 +5,8 @@ import { ProfessorCard } from '@/components/professors/ProfessorCard'
 import { SearchBar } from '@/components/search/SearchBar'
 import { Users, Star, BookOpen } from 'lucide-react'
 
+
+export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Professor Reviews – Lebanese Universities | EduScore Lebanon',
   description: 'Browse professor reviews and ratings at AUB, LAU, USJ, LIU, NDU, BAU and other Lebanese universities.',

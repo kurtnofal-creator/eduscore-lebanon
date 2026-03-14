@@ -5,6 +5,8 @@ import { Users, BookOpen, Star, ArrowRight, Zap, Clock } from 'lucide-react'
 import { DataTierBadge } from '@/components/universities/DataTierBadge'
 import { getCapability } from '@/lib/university-capabilities'
 
+
+export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Lebanese Universities – Professor Reviews & Course Ratings',
   description: 'Browse professor reviews and course ratings for all major Lebanese universities: AUB, LAU, USJ, LIU, NDU, BAU, AUST, and more.',

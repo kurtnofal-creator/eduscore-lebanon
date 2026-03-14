@@ -2,6 +2,8 @@ import { prisma } from '@/lib/db'
 import { getDashboardStats } from '@/lib/analytics'
 import { Star, Users, BookOpen, RefreshCw, AlertTriangle, CheckCircle, Clock, TrendingUp } from 'lucide-react'
 
+
+export const dynamic = 'force-dynamic'
 async function getAdminStats() {
   const [
     totalProfessors,

@@ -6,6 +6,8 @@ import { prisma } from '@/lib/db'
 import { Star, BookOpen, Calendar, User, ChevronRight, Clock, BookMarked, Heart, ArrowRight } from 'lucide-react'
 import { WatchButton } from '@/components/professors/WatchButton'
 
+
+export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'My Dashboard – EduScore Lebanon',
   description: 'Your saved professors, courses, schedules, and review history.',

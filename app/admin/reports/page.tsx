@@ -6,6 +6,8 @@ interface Props {
   searchParams: Promise<{ status?: string; page?: string }>
 }
 
+
+export const dynamic = 'force-dynamic'
 export default async function AdminReportsPage({ searchParams }: Props) {
   const params = await searchParams
   const status = params.status ?? 'PENDING'

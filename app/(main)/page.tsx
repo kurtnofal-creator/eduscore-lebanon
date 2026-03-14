@@ -9,6 +9,8 @@ import {
   CheckCircle, Zap, Award, Database, MessageSquare, Clock, Copy,
 } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'EduScore Lebanon – Professor Reviews & Schedule Planner',
   description: 'Find professor reviews, compare courses, and build conflict-free schedules at AUB, LAU, USJ, LIU, NDU, BAU, and other Lebanese universities.',

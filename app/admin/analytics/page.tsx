@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/db'
 import { BarChart2, TrendingUp, Users, BookOpen, Star, Search, Eye, Calendar, Bell } from 'lucide-react'
 
+
+export const dynamic = 'force-dynamic'
 export default async function AdminAnalyticsPage() {
   const now = new Date()
   const days7Ago = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)

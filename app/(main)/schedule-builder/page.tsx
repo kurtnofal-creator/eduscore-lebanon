@@ -4,6 +4,8 @@ import { ScheduleBuilderClient } from '@/components/schedule/ScheduleBuilderClie
 import { AdBanner } from '@/components/ads/AdBanner'
 import { Zap, Info } from 'lucide-react'
 
+
+export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Schedule Builder – Build Your Perfect Class Schedule',
   description:

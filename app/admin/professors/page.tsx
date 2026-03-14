@@ -6,6 +6,8 @@ interface Props {
   searchParams: Promise<{ q?: string; uni?: string; page?: string }>
 }
 
+
+export const dynamic = 'force-dynamic'
 export default async function AdminProfessorsPage({ searchParams }: Props) {
   const params = await searchParams
   const q = params.q?.trim() ?? ''

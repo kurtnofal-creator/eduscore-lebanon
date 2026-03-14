@@ -14,6 +14,8 @@ import { DataReportButton } from '@/components/DataReportButton'
 
 interface Props { params: Promise<{ slug: string }> }
 
+
+export const dynamic = 'force-dynamic'
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const professor = await prisma.professor.findFirst({

@@ -4,6 +4,8 @@ import { prisma } from '@/lib/db'
 import { SearchBar } from '@/components/search/SearchBar'
 import { BookOpen, ArrowRight, Star, Users } from 'lucide-react'
 
+
+export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Course Reviews – Lebanese Universities | EduScore Lebanon',
   description: 'Browse course reviews, difficulty ratings, and workload data for courses at AUB, LAU, USJ, LIU, NDU, and BAU.',

@@ -17,6 +17,8 @@ interface Props {
   }>
 }
 
+
+export const dynamic = 'force-dynamic'
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const { q } = await searchParams
   return {

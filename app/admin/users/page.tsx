@@ -6,6 +6,8 @@ import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
+
+export const dynamic = 'force-dynamic'
 export const metadata: Metadata = { title: 'Users – EduScore Admin' }
 
 interface Props {
