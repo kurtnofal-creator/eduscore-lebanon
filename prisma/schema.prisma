@@ -1,13 +1,13 @@
-// EduScore Lebanon – SQLite schema (dev)
-// For production: switch provider to "postgresql" and restore enum types
+// EduScore Lebanon – PostgreSQL schema (production)
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // ── AUTH ─────────────────────────────────────────────────────────────────────
