@@ -1,0 +1,493 @@
+// EduScore Lebanon – PostgreSQL schema (production)
+// To deploy: copy this file over prisma/schema.prisma, then run:
+//   npx prisma migrate deploy   (if using migrations)
+//   OR
+//   npx prisma db push          (first-time setup on Neon)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL") // Neon requires this for migrations
+}
+
+// ── AUTH ─────────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  role          String    @default("STUDENT") // STUDENT | MODERATOR | ADMIN
+  university    String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastActiveAt  DateTime  @default(now())
+  isBanned      Boolean   @default(false)
+  banReason     String?
+
+  accounts       Account[]
+  sessions       Session[]
+  reviews        Review[]
+  reviewVotes    ReviewVote[]
+  watchlistItems WatchlistItem[]
+  savedSchedules SavedSchedule[]
+  reports        Report[]
+  notifications  Notification[]
+  adminActions   AdminAction[]
+  seatAlerts     SeatAlert[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+// ── ACADEMIC HIERARCHY ───────────────────────────────────────────────────────
+
+model University {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  shortName   String   @unique
+  slug        String   @unique
+  country     String   @default("Lebanon")
+  city        String?
+  website     String?
+  logoUrl     String?
+  description       String?
+  registrationModel String   @default("FLEXIBLE")
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  faculties Faculty[]
+  syncJobs  SyncJob[]
+}
+
+model Faculty {
+  id           String   @id @default(cuid())
+  name         String
+  slug         String
+  universityId String
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  university  University   @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  departments Department[]
+  @@unique([universityId, slug])
+}
+
+model Department {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String
+  code      String?
+  facultyId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  faculty    Faculty     @relation(fields: [facultyId], references: [id], onDelete: Cascade)
+  courses    Course[]
+  professors Professor[]
+  @@unique([facultyId, slug])
+}
+
+model AcademicTerm {
+  id           String    @id @default(cuid())
+  name         String
+  season       String
+  year         Int
+  universityId String?
+  startDate    DateTime?
+  endDate      DateTime?
+  isActive     Boolean   @default(false)
+  isCurrent    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+
+  sections Section[]
+  @@unique([season, year, universityId])
+}
+
+model Course {
+  id           String   @id @default(cuid())
+  code         String
+  name         String
+  slug         String
+  departmentId String
+  credits      Int?
+  description  String?
+  level        String   @default("UNDERGRADUATE")
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  avgWorkload   Float?
+  avgDifficulty Float?
+  avgGrading    Float?
+  reviewCount   Int    @default(0)
+
+  department       Department        @relation(fields: [departmentId], references: [id])
+  sections         Section[]
+  professorCourses ProfessorCourse[]
+  reviews          Review[]
+  watchlistItems   WatchlistItem[]
+  @@unique([departmentId, code])
+}
+
+model Professor {
+  id           String    @id @default(cuid())
+  firstName    String
+  lastName     String
+  fullName     String
+  slug         String    @unique
+  departmentId String?
+  title        String?
+  email        String?
+  bio          String?   @db.Text
+  imageUrl     String?
+  isActive     Boolean   @default(true)
+  isMerged     Boolean   @default(false)
+  mergedIntoId String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  lastSyncedAt DateTime?
+
+  overallRating    Float?
+  teachingClarity  Float?
+  workloadLevel    Float?
+  gradingFairness  Float?
+  attendanceStrict Float?
+  examDifficulty   Float?
+  participation    Float?
+  recommendRate    Float?
+  reviewCount      Int    @default(0)
+
+  department        Department?        @relation(fields: [departmentId], references: [id])
+  professorCourses  ProfessorCourse[]
+  sectionProfessors SectionProfessor[]
+  reviews           Review[]
+  watchlistItems    WatchlistItem[]
+}
+
+model ProfessorCourse {
+  id          String   @id @default(cuid())
+  professorId String
+  courseId    String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  professor Professor @relation(fields: [professorId], references: [id], onDelete: Cascade)
+  course    Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  @@unique([professorId, courseId])
+}
+
+model Section {
+  id            String    @id @default(cuid())
+  courseId      String
+  termId        String
+  sectionNumber String
+  crn           String?
+  capacity      Int?
+  enrolled      Int?
+  seatsRemaining      Int?
+  location      String?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastSyncedAt  DateTime?
+
+  status              String    @default("UNKNOWN")
+  isStale             Boolean   @default(false)
+  completenessScore   Float     @default(0.0)
+  dataQualityStatus   String    @default("MINIMAL")
+  sourceConnector     String?
+  sourceIdentifier    String?
+  historicalInference Boolean   @default(false)
+
+  course                Course                @relation(fields: [courseId], references: [id])
+  term                  AcademicTerm          @relation(fields: [termId], references: [id])
+  professors            SectionProfessor[]
+  meetings              SectionMeeting[]
+  savedScheduleSections SavedScheduleSection[]
+  seatAlerts            SeatAlert[]
+  @@unique([courseId, termId, sectionNumber])
+}
+
+model SectionProfessor {
+  id          String  @id @default(cuid())
+  sectionId   String
+  professorId String
+  isPrimary   Boolean @default(true)
+  confidence  String  @default("INFERRED")
+
+  section   Section   @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  professor Professor @relation(fields: [professorId], references: [id])
+  @@unique([sectionId, professorId])
+}
+
+model SectionMeeting {
+  id        String  @id @default(cuid())
+  sectionId String
+  day       String
+  startTime String
+  endTime   String
+  type      String  @default("LECTURE")
+  location  String?
+
+  section Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+}
+
+// ── REVIEWS ──────────────────────────────────────────────────────────────────
+
+model Review {
+  id          String   @id @default(cuid())
+  userId      String
+  professorId String?
+  courseId    String?
+  termTaken   String?
+  isAnonymous Boolean  @default(true)
+  status      String   @default("PENDING")
+
+  overallRating    Int?
+  teachingClarity  Int?
+  workloadLevel    Int?
+  gradingFairness  Int?
+  attendanceStrict Int?
+  examDifficulty   Int?
+  participation    Int?
+  wouldRecommend   Boolean?
+  grade            String?
+
+  body           String   @db.Text
+  pros           String?  @db.Text
+  cons           String?  @db.Text
+  tags           String?
+
+  helpfulCount   Int      @default(0)
+  flagCount      Int      @default(0)
+  moderationNote String?
+  ipHash         String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user            User              @relation(fields: [userId], references: [id])
+  professor       Professor?        @relation(fields: [professorId], references: [id])
+  course          Course?           @relation(fields: [courseId], references: [id])
+  votes           ReviewVote[]
+  reports         Report[]
+  moderationQueue ModerationQueue?
+}
+
+model ReviewVote {
+  id        String   @id @default(cuid())
+  reviewId  String
+  userId    String
+  isHelpful Boolean
+  createdAt DateTime @default(now())
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([reviewId, userId])
+}
+
+model ModerationQueue {
+  id          String    @id @default(cuid())
+  reviewId    String    @unique
+  reason      String
+  autoFlags   String    @default("")
+  status      String    @default("PENDING")
+  moderatorId String?
+  decision    String?
+  decidedAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+}
+
+model Report {
+  id         String    @id @default(cuid())
+  reviewId   String
+  userId     String
+  reason     String    @default("OTHER")
+  details    String?
+  status     String    @default("PENDING")
+  resolvedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+// ── WATCHLIST & SCHEDULES ────────────────────────────────────────────────────
+
+model SeatAlert {
+  id         String    @id @default(cuid())
+  userId     String
+  sectionId  String
+  threshold  Int       @default(1)
+  isActive   Boolean   @default(true)
+  notifiedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  section Section @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  @@unique([userId, sectionId])
+}
+
+model WatchlistItem {
+  id          String   @id @default(cuid())
+  userId      String
+  type        String
+  professorId String?
+  courseId    String?
+  createdAt   DateTime @default(now())
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  professor Professor? @relation(fields: [professorId], references: [id])
+  course    Course?    @relation(fields: [courseId], references: [id])
+  @@unique([userId, type, professorId, courseId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  body      String   @db.Text
+  link      String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SavedSchedule {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  termId    String?
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sections SavedScheduleSection[]
+}
+
+model SavedScheduleSection {
+  id              String @id @default(cuid())
+  savedScheduleId String
+  sectionId       String
+
+  savedSchedule SavedSchedule @relation(fields: [savedScheduleId], references: [id], onDelete: Cascade)
+  section       Section       @relation(fields: [sectionId], references: [id])
+  @@unique([savedScheduleId, sectionId])
+}
+
+// ── SYNC / JOBS ──────────────────────────────────────────────────────────────
+
+model SyncJob {
+  id           String    @id @default(cuid())
+  universityId String
+  type         String
+  status       String    @default("PENDING")
+  startedAt    DateTime?
+  completedAt  DateTime?
+  errorMessage String?
+  stats        String?
+  source       String?
+  retryCount   Int       @default(0)
+  nextRetryAt  DateTime?
+  createdAt    DateTime  @default(now())
+
+  university University @relation(fields: [universityId], references: [id])
+}
+
+model SyncLog {
+  id        String   @id @default(cuid())
+  jobId     String?
+  level     String
+  message   String
+  data      String?  @db.Text
+  createdAt DateTime @default(now())
+}
+
+model AdminAction {
+  id         String   @id @default(cuid())
+  adminId    String
+  action     String
+  entityType String
+  entityId   String
+  metadata   String?
+  createdAt  DateTime @default(now())
+
+  admin User @relation(fields: [adminId], references: [id])
+}
+
+model AnalyticsEvent {
+  id          String   @id @default(cuid())
+  event       String
+  page        String?
+  referrer    String?
+  properties  String?  @db.Text
+  sessionId   String?
+  countryCode String?
+  createdAt   DateTime @default(now())
+}
+
+// ── BETA FEEDBACK ─────────────────────────────────────────────────────────────
+
+model Feedback {
+  id        String   @id @default(cuid())
+  message   String   @db.Text
+  email     String?
+  page      String?
+  createdAt DateTime @default(now())
+}
+
+// ── DATA REPORTS ─────────────────────────────────────────────────────────────
+
+model DataReport {
+  id             String   @id @default(cuid())
+  universitySlug String
+  courseCode     String?
+  sectionId      String?
+  professorSlug  String?
+  page           String?
+  message        String   @db.Text
+  status         String   @default("OPEN")
+  resolvedAt     DateTime?
+  createdAt      DateTime @default(now())
+}
