@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/db'
-import { BarChart2, TrendingUp, Users, BookOpen, Star, Search, Eye, Calendar } from 'lucide-react'
+import { BarChart2, TrendingUp, Users, BookOpen, Star, Search, Eye, Calendar, Bell } from 'lucide-react'
 
 export default async function AdminAnalyticsPage() {
   const now = new Date()
@@ -15,7 +15,10 @@ export default async function AdminAnalyticsPage() {
     reviewsBy7d,
     reviewsBy30d,
     schedulesBuilt7d,
+    schedulesBuilt30d,
     favoritesAdded7d,
+    totalSeatAlerts,
+    searches30d,
     topProfessors,
     topCourses,
     reviewsByStatus,
@@ -46,8 +49,11 @@ export default async function AdminAnalyticsPage() {
     prisma.analyticsEvent.count({ where: { event: 'page_view', createdAt: { gte: days30Ago } } }),
     prisma.review.count({ where: { createdAt: { gte: days7Ago } } }),
     prisma.review.count({ where: { createdAt: { gte: days30Ago } } }),
-    prisma.analyticsEvent.count({ where: { event: 'schedule_built', createdAt: { gte: days7Ago } } }),
+    prisma.analyticsEvent.count({ where: { event: 'schedule_generated', createdAt: { gte: days7Ago } } }),
+    prisma.analyticsEvent.count({ where: { event: 'schedule_generated', createdAt: { gte: days30Ago } } }),
     prisma.watchlistItem.count({ where: { createdAt: { gte: days7Ago } } }),
+    prisma.seatAlert.count({ where: { isActive: true } }),
+    prisma.analyticsEvent.count({ where: { event: 'search', createdAt: { gte: days30Ago } } }),
     prisma.professor.findMany({
       where: { isActive: true, reviewCount: { gte: 1 } },
       orderBy: { reviewCount: 'desc' },
@@ -98,14 +104,14 @@ export default async function AdminAnalyticsPage() {
       {/* Activity stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[
-          { icon: Eye, label: 'Page views (7d)', value: pageViews7d.toLocaleString() },
-          { icon: Eye, label: 'Page views (30d)', value: pageViews30d.toLocaleString() },
-          { icon: Star, label: 'New reviews (7d)', value: reviewsBy7d.toLocaleString() },
-          { icon: Star, label: 'New reviews (30d)', value: reviewsBy30d.toLocaleString() },
-          { icon: Calendar, label: 'Schedules built (7d)', value: schedulesBuilt7d.toLocaleString() },
-          { icon: TrendingUp, label: 'Favorites added (7d)', value: favoritesAdded7d.toLocaleString() },
-          { icon: Search, label: 'Searches (30d)', value: topSearches.reduce((s, r) => s + r._count, 0).toLocaleString() },
-          { icon: BarChart2, label: 'Pending reviews', value: (statusMap['PENDING'] ?? 0).toLocaleString() },
+          { icon: Eye,      label: 'Page views (7d)',      value: pageViews7d.toLocaleString() },
+          { icon: Eye,      label: 'Page views (30d)',     value: pageViews30d.toLocaleString() },
+          { icon: Search,   label: 'Searches (30d)',       value: searches30d.toLocaleString() },
+          { icon: Calendar, label: 'Schedules (7d)',       value: schedulesBuilt7d.toLocaleString() },
+          { icon: Calendar, label: 'Schedules (30d)',      value: schedulesBuilt30d.toLocaleString() },
+          { icon: Star,     label: 'New reviews (30d)',    value: reviewsBy30d.toLocaleString() },
+          { icon: Bell,     label: 'Active seat alerts',   value: totalSeatAlerts.toLocaleString() },
+          { icon: BarChart2, label: 'Pending moderation', value: (statusMap['PENDING'] ?? 0).toLocaleString() },
         ].map(({ icon: Icon, label, value }) => (
           <div key={label} className="bg-white rounded-xl border border-slate-200 p-4">
             <div className="flex items-center gap-2 mb-2">

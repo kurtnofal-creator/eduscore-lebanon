@@ -5,6 +5,7 @@ import { prisma } from '@/lib/db'
 import { filterReview, isDuplicateReview, hashIp } from '@/lib/content-filter'
 import { recomputeProfessorStats, recomputeCourseStats } from '@/lib/sync'
 import { ReviewStatus } from '@/lib/constants'
+import { trackEvent } from '@/lib/analytics'
 
 const ReviewSchema = z.object({
   professorId: z.string().optional(),
@@ -164,6 +165,12 @@ export async function POST(req: NextRequest) {
         : status === ReviewStatus.PENDING
         ? 'Review submitted and is pending moderation. It will appear once approved.'
         : 'Review could not be published due to policy violations.'
+
+    trackEvent('review_submitted', {
+      status,
+      professorId: data.professorId ?? null,
+      courseId: data.courseId ?? null,
+    }).catch(() => {})
 
     return NextResponse.json({ review: { id: review.id, status }, message }, { status: 201 })
   } catch (error) {

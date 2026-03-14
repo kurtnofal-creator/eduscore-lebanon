@@ -1,0 +1,110 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# EduScore Lebanon — CI/CD Pipeline
+#
+# Triggers on every push to `main`.
+# 1. Installs deps, generates Prisma client, runs Next.js build (build gate).
+# 2. Pulls Vercel project env vars (set in the Vercel dashboard).
+# 3. Enforces BETA_NO_INDEX=true so crawlers are blocked during beta.
+# 4. Builds the production bundle via the Vercel CLI.
+# 5. Deploys the prebuilt output to Vercel (no double-build).
+#
+# Required GitHub secrets — see DEPLOYMENT.md for where to get each one:
+#   VERCEL_TOKEN        Personal access token from vercel.com/account/tokens
+#   VERCEL_ORG_ID       From .vercel/project.json after `vercel link`
+#   VERCEL_PROJECT_ID   From .vercel/project.json after `vercel link`
+#   DATABASE_URL        Neon PostgreSQL pooled connection string
+#   DIRECT_URL          Neon PostgreSQL direct (non-pooled) connection string
+#   AUTH_SECRET         Random 32-byte secret  (openssl rand -base64 32)
+#   NEXT_PUBLIC_APP_URL Full URL of your Vercel deployment (no trailing slash)
+# ──────────────────────────────────────────────────────────────────────────────
+
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main
+
+# Cancel in-progress runs on the same branch to save free-tier minutes
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # ── 1. Source ────────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Node.js ──────────────────────────────────────────────────────────
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      # ── 3. Dependencies ─────────────────────────────────────────────────────
+      - name: Install dependencies
+        run: npm ci
+
+      # ── 4. Prisma client ────────────────────────────────────────────────────
+      # Generate the Prisma client from schema.prisma.
+      # DATABASE_URL must be set so the client is generated against the correct
+      # provider (postgresql). No schema changes are applied here.
+      - name: Generate Prisma client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      # ── 5. Pull Vercel environment ──────────────────────────────────────────
+      # Downloads the project's env vars from the Vercel dashboard into
+      # .vercel/.env.production.local so `vercel build` can use them.
+      - name: Pull Vercel environment info
+        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      # ── 6. Enforce beta indexing block ──────────────────────────────────────
+      # Appends BETA_NO_INDEX=true to the pulled env file so robots.txt always
+      # returns Disallow: / during the beta period, regardless of the dashboard
+      # setting. Remove this step (or set BETA_NO_INDEX=false in the dashboard)
+      # when you are ready for full public indexing.
+      - name: Enforce beta indexing block
+        run: echo 'BETA_NO_INDEX=true' >> .vercel/.env.production.local
+
+      # ── 7. Build ─────────────────────────────────────────────────────────────
+      # Runs `next build` inside the Vercel toolchain and writes the production
+      # bundle to .vercel/output (Vercel Build Output API format).
+      - name: Build production bundle
+        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      # ── 8. Deploy ────────────────────────────────────────────────────────────
+      # Uploads the prebuilt .vercel/output to Vercel's edge network.
+      # --prebuilt skips a second build on Vercel's side → saves CI minutes.
+      - name: Deploy to Vercel (production)
+        id: deploy
+        run: |
+          DEPLOY_URL=$(npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+          echo "Deployed → $DEPLOY_URL"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      # ── 9. Summary ───────────────────────────────────────────────────────────
+      - name: Write job summary
+        run: |
+          echo "## Deployment complete" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**URL:** ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Commit:** \`${{ github.sha }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**BETA_NO_INDEX:** true" >> "$GITHUB_STEP_SUMMARY"

@@ -1,4 +1,6 @@
 {
+  "framework": "nextjs",
+
   "crons": [
     {
       "path": "/api/cron/health-check",
@@ -7,6 +9,33 @@
     {
       "path": "/api/seat-alerts/check",
       "schedule": "0 * * * *"
+    }
+  ],
+
+  "rewrites": [
+    {
+      "source": "/health",
+      "destination": "/api/health"
+    }
+  ],
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'none'"
+        }
+      ]
     }
   ]
 }

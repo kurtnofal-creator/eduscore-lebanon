@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev",
+    "db:migrate": "prisma migrate deploy",
+    "build:prod": "prisma generate && prisma db push && next build",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "jobs:start": "tsx jobs/worker.ts"

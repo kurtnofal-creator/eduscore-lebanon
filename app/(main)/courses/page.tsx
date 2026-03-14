@@ -82,8 +82,8 @@ export default async function CoursesPage({ searchParams }: Props) {
       </div>
 
       {/* Filter bar */}
-      <div className="flex flex-wrap items-center gap-3 mb-8">
-        <div className="flex flex-wrap gap-2">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 mb-8">
+        <div className="flex flex-wrap gap-2 flex-1">
           <Link
             href="/courses"
             className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
@@ -105,7 +105,7 @@ export default async function CoursesPage({ searchParams }: Props) {
           ))}
         </div>
 
-        <div className="ml-auto flex gap-2">
+        <div className="flex gap-2 flex-shrink-0">
           {[
             { value: 'reviews', label: 'Most Reviewed' },
             { value: 'difficulty', label: 'Hardest' },
