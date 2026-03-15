@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { prisma } from '@/lib/db'
 import { Users, BookOpen, Star, ArrowRight, Zap, Clock } from 'lucide-react'
 import { DataTierBadge } from '@/components/universities/DataTierBadge'
@@ -75,8 +76,8 @@ export default async function UniversitiesPage() {
                 className="es-card es-card-link group flex flex-col p-6 cursor-pointer border-green-100 hover:border-green-300"
               >
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center text-green-700 font-bold text-base flex-shrink-0 transition-all group-hover:bg-green-600 group-hover:text-white">
-                    {uni.shortName.slice(0, 3)}
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow">
+                    <Image src={`/logos/${uni.slug}.svg`} alt={`${uni.shortName} logo`} width={64} height={64} className="w-full h-full object-cover" unoptimized />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -129,8 +130,8 @@ export default async function UniversitiesPage() {
                   className="es-card es-card-link group flex flex-col p-6 cursor-pointer"
                 >
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-700 font-bold text-base flex-shrink-0 transition-all group-hover:bg-blue-600 group-hover:text-white">
-                      {uni.shortName.slice(0, 3)}
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow">
+                      <Image src={`/logos/${uni.slug}.svg`} alt={`${uni.shortName} logo`} width={64} height={64} className="w-full h-full object-cover" unoptimized />
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">

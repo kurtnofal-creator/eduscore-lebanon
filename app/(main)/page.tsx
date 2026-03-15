@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Image from 'next/image'
 import { prisma } from '@/lib/db'
 import { SearchBar } from '@/components/search/SearchBar'
 import { ProfessorCard } from '@/components/professors/ProfessorCard'
@@ -402,21 +403,30 @@ export default async function HomePage() {
             <p className="section-label mb-3">Supported schools</p>
             <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>Browse by University</h2>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
             {universities.map(uni => {
               const isLive = LIVE_SLUGS.has(uni.slug)
+              const logoPath = `/logos/${uni.slug}.svg`
               return (
                 <Link
                   key={uni.id}
                   href={`/universities/${uni.slug}`}
-                  className="es-card es-card-link p-5 flex flex-col items-center gap-3 text-center group cursor-pointer relative"
+                  className="es-card es-card-link flex flex-col items-center gap-3 text-center group cursor-pointer relative"
                   style={{ padding: '20px 16px' }}
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-700 font-bold text-sm transition-all group-hover:bg-blue-600 group-hover:text-white">
-                    {uni.shortName.slice(0, 3)}
+                  {/* Logo */}
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow">
+                    <Image
+                      src={logoPath}
+                      alt={`${uni.shortName} logo`}
+                      width={64}
+                      height={64}
+                      className="w-full h-full object-cover"
+                      unoptimized
+                    />
                   </div>
                   <div>
-                    <p className="font-semibold text-slate-900 text-sm">{uni.shortName}</p>
+                    <p className="font-semibold text-slate-900 text-sm group-hover:text-blue-700 transition-colors">{uni.shortName}</p>
                     {uni.city && <p className="text-xs text-slate-400 mt-0.5">{uni.city}</p>}
                   </div>
                   {isLive ? (
