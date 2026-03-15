@@ -48,7 +48,7 @@ export default async function UniversitiesPage() {
       {/* Page header */}
       <div className="mb-12">
         <p className="section-label mb-3">All schools</p>
-        <h1 className="text-4xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+        <h1 className="text-4xl font-bold text-slate-900 mb-3">
           Lebanese Universities
         </h1>
         <p className="text-slate-500 max-w-xl text-base">
@@ -75,14 +75,12 @@ export default async function UniversitiesPage() {
                 className="es-card es-card-link group flex flex-col p-6 cursor-pointer border-green-100 hover:border-green-300"
               >
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center text-green-700 font-bold text-base flex-shrink-0 transition-all group-hover:bg-green-600 group-hover:text-white"
-                    style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+                  <div className="w-16 h-16 rounded-2xl bg-green-50 flex items-center justify-center text-green-700 font-bold text-base flex-shrink-0 transition-all group-hover:bg-green-600 group-hover:text-white">
                     {uni.shortName.slice(0, 3)}
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="font-bold text-slate-900 text-base group-hover:text-blue-700 transition-colors"
-                        style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+                      <h2 className="font-bold text-slate-900 text-base group-hover:text-blue-700 transition-colors">
                         {uni.shortName}
                       </h2>
                       <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
@@ -131,15 +129,18 @@ export default async function UniversitiesPage() {
                   className="es-card es-card-link group flex flex-col p-6 cursor-pointer"
                 >
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-700 font-bold text-base flex-shrink-0 transition-all group-hover:bg-blue-600 group-hover:text-white"
-                      style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+                    <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-700 font-bold text-base flex-shrink-0 transition-all group-hover:bg-blue-600 group-hover:text-white">
                       {uni.shortName.slice(0, 3)}
                     </div>
                     <div className="min-w-0">
-                      <h2 className="font-bold text-slate-900 text-base group-hover:text-blue-700 transition-colors"
-                        style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                        {uni.shortName}
-                      </h2>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h2 className="font-bold text-slate-900 text-base group-hover:text-blue-700 transition-colors">
+                          {uni.shortName}
+                        </h2>
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-500 bg-slate-100 border border-slate-200 rounded-full px-2 py-0.5">
+                          Coming Soon
+                        </span>
+                      </div>
                       <p className="text-sm text-slate-500 leading-tight mt-0.5 line-clamp-2">{uni.name}</p>
                       {uni.city && <p className="text-xs text-slate-400 mt-1">{uni.city}</p>}
                     </div>

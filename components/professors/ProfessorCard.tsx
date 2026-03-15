@@ -2,17 +2,6 @@ import Link from 'next/link'
 import { Users, ThumbsUp, ArrowUpRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const AVATAR_COLORS = [
-  'bg-blue-100 text-blue-700',
-  'bg-violet-100 text-violet-700',
-  'bg-emerald-100 text-emerald-700',
-  'bg-amber-100 text-amber-700',
-  'bg-rose-100 text-rose-700',
-  'bg-cyan-100 text-cyan-700',
-  'bg-indigo-100 text-indigo-700',
-  'bg-teal-100 text-teal-700',
-]
-
 function getInitials(name: string) {
   const parts = name.trim().split(/\s+/)
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
@@ -20,9 +9,12 @@ function getInitials(name: string) {
 }
 
 function getAvatarColor(name: string) {
-  let hash = 0
-  for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0
-  return AVATAR_COLORS[hash % AVATAR_COLORS.length]
+  const first = name.trim()[0]?.toUpperCase() ?? 'A'
+  if (first >= 'A' && first <= 'E') return 'bg-blue-100 text-blue-700'
+  if (first >= 'F' && first <= 'J') return 'bg-violet-100 text-violet-700'
+  if (first >= 'K' && first <= 'O') return 'bg-emerald-100 text-emerald-700'
+  if (first >= 'P' && first <= 'T') return 'bg-amber-100 text-amber-700'
+  return 'bg-rose-100 text-rose-700'
 }
 
 interface ProfessorCardProps {
@@ -40,20 +32,6 @@ interface ProfessorCardProps {
       faculty?: { university?: { shortName: string; slug: string } | null } | null
     } | null
   }
-}
-
-function ratingClass(r: number) {
-  if (r >= 4) return 'rating-great'
-  if (r >= 3) return 'rating-ok'
-  return 'rating-poor'
-}
-
-function ratingLabel(r: number) {
-  if (r >= 4.5) return 'Awesome'
-  if (r >= 4)   return 'Good'
-  if (r >= 3)   return 'Average'
-  if (r >= 2)   return 'Poor'
-  return 'Awful'
 }
 
 function workloadBarClass(w: number) {
@@ -90,9 +68,9 @@ export function ProfessorCard({ professor }: ProfessorCardProps) {
             </p>
           )}
           <div className="mt-1.5">
-            {professor.overallRating != null ? (
-              <span className={cn('inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-lg', ratingClass(professor.overallRating))}>
-                {professor.overallRating.toFixed(1)} · {ratingLabel(professor.overallRating)}
+            {professor.overallRating != null && professor.overallRating > 0 ? (
+              <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-lg bg-amber-100 text-amber-700">
+                ⭐ {professor.overallRating.toFixed(1)}
               </span>
             ) : (
               <span className="text-[11px] text-slate-400 italic">No reviews yet — be the first</span>

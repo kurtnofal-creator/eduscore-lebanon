@@ -123,7 +123,8 @@ export default async function SearchPage({ searchParams }: Props) {
   return (
     <div className="container max-w-6xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-4">
+        <p className="section-label mb-3">Search</p>
+        <h1 className="text-4xl font-bold text-slate-900 mb-4">
           {q ? `Results for "${q}"` : 'Search Professors & Courses'}
         </h1>
         <SearchBar
@@ -151,22 +152,25 @@ export default async function SearchPage({ searchParams }: Props) {
               <p className="text-lg">Start typing to search for professors and courses.</p>
             </div>
           ) : totalResults === 0 ? (
-            <div className="text-center py-16 text-muted-foreground">
-              <p className="text-lg">No results found for &quot;{q}&quot;</p>
-              <p className="text-sm mt-2">Try different keywords or browse by university.</p>
+            <div className="es-card p-16 text-center">
+              <p className="text-slate-700 font-semibold text-base mb-1">No results found for &quot;{q}&quot;</p>
+              <p className="text-slate-400 text-sm">No results found for your search. Try a different term.</p>
             </div>
           ) : (
             <>
               {/* Professors */}
               {professors.length > 0 && (
                 <section>
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-semibold text-lg">
-                      Professors
-                      <span className="ml-2 text-sm text-muted-foreground font-normal">
-                        ({professorTotal} found)
-                      </span>
-                    </h2>
+                  <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+                    <div>
+                      <p className="section-label mb-0.5">People</p>
+                      <h2 className="font-bold text-slate-900 text-xl">
+                        Professors
+                        <span className="ml-2 text-sm text-slate-400 font-normal">
+                          ({professorTotal} found)
+                        </span>
+                      </h2>
+                    </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {professors.map(prof => (
@@ -179,13 +183,16 @@ export default async function SearchPage({ searchParams }: Props) {
               {/* Courses */}
               {courses.length > 0 && (
                 <section>
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-semibold text-lg">
-                      Courses
-                      <span className="ml-2 text-sm text-muted-foreground font-normal">
-                        ({courseTotal} found)
-                      </span>
-                    </h2>
+                  <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-3">
+                    <div>
+                      <p className="section-label mb-0.5">Academics</p>
+                      <h2 className="font-bold text-slate-900 text-xl">
+                        Courses
+                        <span className="ml-2 text-sm text-slate-400 font-normal">
+                          ({courseTotal} found)
+                        </span>
+                      </h2>
+                    </div>
                   </div>
                   <div className="space-y-3">
                     {courses.map(course => (

@@ -140,49 +140,31 @@
 
 /* Buttons */
 .btn-primary {
+  @apply bg-[#2563EB] hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 11px 22px;
-  background: linear-gradient(135deg,#2563eb,#1d4ed8);
-  color: #fff;
-  border-radius: 12px;
   font-family: 'Inter', sans-serif;
-  font-weight: 600;
   font-size: 14px;
   border: none;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(37,99,235,0.28);
   letter-spacing: -0.01em;
-}
-.btn-primary:hover {
-  background: linear-gradient(135deg,#1d4ed8,#1e40af);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(37,99,235,0.38);
 }
 .btn-primary:active { transform: translateY(0); }
 
 .btn-secondary {
+  @apply bg-white border border-slate-200 hover:border-blue-200 text-slate-700 font-semibold px-5 py-2.5 rounded-xl transition-all;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 11px 22px;
-  background: #fff;
-  color: #1e293b;
-  border-radius: 12px;
   font-family: 'Inter', sans-serif;
-  font-weight: 600;
   font-size: 14px;
-  border: 1.5px solid #e2e8f0;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s ease;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 .btn-secondary:hover {
-  border-color: #93c5fd;
   color: #2563eb;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(37,99,235,0.12);
@@ -195,20 +177,21 @@
 
 /* Section label */
 .section-label {
+  @apply text-xs font-bold uppercase tracking-widest text-blue-600;
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #2563eb;
 }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #2563eb 0%, #6d28d9 100%);
+  background: linear-gradient(135deg, #2563EB, #4F46E5);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Section spacing */
+.section-py {
+  padding: 80px 0;
 }
 
 /* Schedule blocks */
@@ -232,6 +215,18 @@
 @keyframes skeleton-shimmer {
   0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 @media (max-width: 640px) {

@@ -76,6 +76,12 @@ export default function PrivacyPage() {
         </section>
       </div>
 
+      <div className="mt-10 bg-amber-50 border border-amber-200 rounded-lg p-4">
+        <p className="text-sm text-amber-800">
+          Reviews represent individual student opinions and do not reflect the views of EduScore Lebanon, its team, or any affiliated institutions.
+        </p>
+      </div>
+
       <div className="mt-12 pt-6 border-t border-slate-200 flex gap-6 text-sm">
         <Link href="/terms" className="text-blue-600 hover:underline">Terms of Service</Link>
         <Link href="/guidelines" className="text-blue-600 hover:underline">Community Guidelines</Link>

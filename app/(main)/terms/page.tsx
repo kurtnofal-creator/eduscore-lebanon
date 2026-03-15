@@ -48,6 +48,12 @@ export default function TermsPage() {
           <p>For questions about these Terms, contact us at legal@eduscore.lb</p>
         </section>
       </div>
+
+      <div className="mt-10 bg-amber-50 border border-amber-200 rounded-lg p-4">
+        <p className="text-sm text-amber-800">
+          Reviews represent individual student opinions and do not reflect the views of EduScore Lebanon, its team, or any affiliated institutions.
+        </p>
+      </div>
     </div>
   )
 }

@@ -97,8 +97,11 @@ export default async function HomePage() {
   return (
     <>
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="hero-gradient border-b border-slate-200/60">
+      <section className="hero-gradient border-b border-slate-200/60" style={{ background: 'radial-gradient(circle at top, #eef3ff, #f8fafc, #ffffff)' }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
+
+          {/* Trusted by line */}
+          <p className="text-sm font-medium text-slate-500 mb-4">Trusted by students at <span className="font-bold text-slate-700">AUB</span> and <span className="font-bold text-slate-700">LAU</span></p>
 
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-8">
@@ -110,7 +113,7 @@ export default async function HomePage() {
           <h1
             className="hero-heading font-bold text-slate-900 tracking-tight mb-5"
             style={{
-              fontSize: 'clamp(2.4rem, 6vw, 4rem)',
+              fontSize: 'clamp(2.8rem, 6vw, 4.5rem)',
               fontFamily: 'Inter, system-ui, sans-serif',
               lineHeight: 1.06,
             }}
@@ -171,7 +174,7 @@ export default async function HomePage() {
           </div>
 
           {/* Stats row */}
-          <div className="w-full max-w-2xl mx-auto grid grid-cols-3 sm:grid-cols-5 gap-px bg-slate-200/60 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+          <div className="w-full max-w-2xl mx-auto grid grid-cols-2 sm:grid-cols-5 gap-px bg-slate-200/60 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
             {[
               { n: `${profCount.toLocaleString()}+`,    label: 'Professors',        icon: Users         },
               { n: `${courseCount.toLocaleString()}+`,  label: 'Courses',           icon: BookOpen      },
@@ -337,22 +340,25 @@ export default async function HomePage() {
               {
                 n: '01', icon: Star, title: 'Research professors',
                 desc: 'Read anonymous student reviews covering teaching quality, grading fairness, workload, attendance policy, and exam difficulty.',
+                iconBg: 'bg-blue-50', iconColor: 'text-blue-600',
               },
               {
                 n: '02', icon: BookOpen, title: 'Compare courses',
                 desc: 'Side-by-side professor comparison for the same course. See who grades easiest, teaches clearest, and gets the most recommendations.',
+                iconBg: 'bg-violet-50', iconColor: 'text-violet-600',
               },
               {
                 n: '03', icon: Calendar, title: 'Build your schedule',
                 desc: 'Drop in your courses and generate all valid combinations. Rank results by best professors, fewest campus days, or shortest gaps.',
+                iconBg: 'bg-emerald-50', iconColor: 'text-emerald-600',
               },
-            ].map(({ n, icon: Icon, title, desc }) => (
+            ].map(({ n, icon: Icon, title, desc, iconBg, iconColor }) => (
               <div key={n} className="relative es-card p-7 group">
                 {/* Step number */}
                 <div className="absolute top-4 right-4 text-[11px] font-bold text-slate-300/70 font-mono tracking-[0.15em] select-none" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 28, lineHeight: 1 }}>{n}</div>
                 {/* Icon */}
-                <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center mb-5 transition-colors group-hover:bg-blue-600">
-                  <Icon className="h-5 w-5 text-blue-600 transition-colors group-hover:text-white" />
+                <div className={`w-11 h-11 rounded-xl ${iconBg} flex items-center justify-center mb-5 transition-colors group-hover:bg-blue-600`}>
+                  <Icon className={`h-5 w-5 ${iconColor} transition-colors group-hover:text-white`} />
                 </div>
                 <h3 className="font-semibold text-slate-900 text-[17px] mb-2" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>{title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
@@ -417,14 +423,11 @@ export default async function HomePage() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="flex items-end justify-between mb-10">
               <div>
-                <p className="section-label mb-2">Trending this week</p>
+                <p className="section-label mb-2">Popular this week</p>
                 <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                  <span className="inline-flex items-center gap-2">
-                    <TrendingUp className="h-7 w-7 text-blue-600" />
-                    Most Active Professors
-                  </span>
+                  🔥 Trending Professors
                 </h2>
-                <p className="text-sm text-slate-400 mt-1">Professors with the most recent student activity</p>
+                <p className="text-sm text-slate-400 mt-1">Most reviewed professors this semester</p>
               </div>
               <Link href="/professors?sort=recent" className="flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
                 View all <ArrowRight className="h-4 w-4" />

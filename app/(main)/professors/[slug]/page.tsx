@@ -132,7 +132,7 @@ export default async function ProfessorPage({ params }: Props) {
           orderBy: [{ helpfulCount: 'desc' }, { createdAt: 'desc' }],
           take: 20,
           select: {
-            id: true, body: true, pros: true, cons: true,
+            id: true, body: true, pros: true, cons: true, tags: true,
             overallRating: true, teachingClarity: true, workloadLevel: true,
             gradingFairness: true, attendanceStrict: true, examDifficulty: true,
             wouldRecommend: true, grade: true, termTaken: true,
@@ -149,6 +149,24 @@ export default async function ProfessorPage({ params }: Props) {
   const dept = professor.department
   const tags = autoTags(professor)
   const insights = extractInsights(professor.reviews)
+
+  // Compute top tags from reviews
+  const tagCounts: Record<string, number> = {}
+  for (const review of professor.reviews) {
+    if (review.tags) {
+      try {
+        const parsed: string[] = JSON.parse(review.tags)
+        for (const t of parsed) {
+          tagCounts[t] = (tagCounts[t] ?? 0) + 1
+        }
+      } catch { /* ignore malformed */ }
+    }
+  }
+  const topTags = Object.entries(tagCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([tag]) => tag)
+
   const hasUserReviewed = session?.user?.id
     ? await prisma.review.findFirst({ where: { userId: session.user.id, professorId: professor.id } })
     : null
@@ -271,7 +289,7 @@ export default async function ProfessorPage({ params }: Props) {
 
           {/* Rating breakdown */}
           {professor.overallRating != null && (
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl">
+            <div className="mt-8 mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl">
               {[
                 { label: 'Teaching Clarity',        value: professor.teachingClarity },
                 { label: 'Grading Fairness',        value: professor.gradingFairness },
@@ -335,22 +353,35 @@ export default async function ProfessorPage({ params }: Props) {
 
             {/* Reviews */}
             <div>
+              {topTags.length > 0 && (
+                <div className="es-card p-4 mb-4">
+                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-2.5">Students often mention</p>
+                  <div className="flex flex-wrap gap-2">
+                    {topTags.map(tag => (
+                      <span key={tag} className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-xs font-medium text-blue-700">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-xl font-bold text-slate-900">Student Reviews</h2>
                 <span className="text-sm text-slate-400 bg-slate-100 px-3 py-1 rounded-full">{professor.reviewCount} total</span>
               </div>
-              <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2">
+              <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-3 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2">
                 <Shield className="h-3.5 w-3.5 text-slate-400 flex-shrink-0" />
                 <span>Reviews are always anonymous. Student identities are never shared.</span>
               </div>
+              <p className="text-xs text-slate-400 mb-4 flex items-center gap-1"><Shield className="h-3 w-3" /> Reviews reflect individual student experiences and are moderated before publishing.</p>
 
               {professor.reviews.length === 0 ? (
                 <div className="es-card p-14 text-center">
                   <div className="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-4">
                     <Star className="h-8 w-8 text-slate-300" />
                   </div>
-                  <p className="text-slate-500 font-medium mb-1">No reviews yet</p>
-                  <p className="text-sm text-slate-400">Be the first to share your experience with this professor.</p>
+                  <p className="text-slate-500 font-medium mb-1">No reviews yet — be the first to share your experience with this professor.</p>
+                  <Link href="/login" className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm transition-all shadow-sm hover:shadow-md">
+                    <PenLine className="h-4 w-4" /> Write First Review
+                  </Link>
                 </div>
               ) : (
                 <div className="space-y-4">

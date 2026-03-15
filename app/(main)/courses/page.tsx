@@ -70,7 +70,7 @@ export default async function CoursesPage({ searchParams }: Props) {
       {/* Header */}
       <div className="mb-10">
         <p className="section-label mb-3">All courses</p>
-        <h1 className="text-4xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+        <h1 className="text-4xl font-bold text-slate-900 mb-3">
           Course Directory
         </h1>
         <p className="text-slate-500 max-w-xl text-base">
@@ -181,7 +181,7 @@ export default async function CoursesPage({ searchParams }: Props) {
             <BookOpen className="h-8 w-8 text-slate-300" />
           </div>
           <p className="text-slate-500 text-sm">
-            No courses with reviews yet{selectedUni ? ` at ${selectedUni.shortName}` : ''}.
+            No courses found. Try a different search.
           </p>
         </div>
       )}

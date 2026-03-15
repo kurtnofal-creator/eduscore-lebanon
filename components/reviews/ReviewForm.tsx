@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Star, Loader2, CheckCircle } from 'lucide-react'
+import { Star, Loader2, CheckCircle, ShieldCheck } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface ReviewFormProps {
@@ -303,6 +303,11 @@ export function ReviewForm({ professorId, professorName, courseId, courseName }:
       >
         {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Submitting...</> : 'Submit Review'}
       </button>
+
+      <p className="flex items-center gap-1.5 text-sm text-slate-500">
+        <ShieldCheck className="h-4 w-4 flex-shrink-0 text-slate-400" />
+        Reviews are always anonymous. Your identity will never be visible to professors or other students.
+      </p>
     </form>
   )
 }
