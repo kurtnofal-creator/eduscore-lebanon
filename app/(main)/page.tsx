@@ -20,12 +20,11 @@ export const metadata: Metadata = {
 
 const LIVE_SLUGS = new Set(['aub', 'lau'])
 const LOGO_EXT: Record<string, string> = {
-  aub: 'png', lau: 'png', liu: 'png', bau: 'png',
+  lau: 'png', liu: 'png', bau: 'png', usj: 'png',
   ua: 'png', aust: 'png', aou: 'png', ndu: 'jpg', usek: 'jpg',
 }
 // Universities whose logos are white-on-transparent — need a brand bg
 const LOGO_BG: Record<string, string> = {
-  aub: '#002776',
   bau: '#006d77',
 }
 function uniLogoPath(slug: string) {
