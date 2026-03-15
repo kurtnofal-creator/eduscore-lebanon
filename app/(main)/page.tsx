@@ -196,6 +196,36 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── CREDIBILITY BAR ──────────────────────────────────────────── */}
+      <section className="bg-white border-b border-slate-100 py-4">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+          <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest flex-shrink-0">Trusted by students at</span>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-green-200 bg-green-50 text-xs font-bold text-green-700">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />AUB
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-green-200 bg-green-50 text-xs font-bold text-green-700">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />LAU
+            </span>
+          </div>
+          <div className="hidden sm:block w-px h-5 bg-slate-200" />
+          <div className="flex items-center gap-6">
+            <div className="text-center">
+              <div className="text-sm font-bold text-slate-900 tabular-nums">{profCount.toLocaleString()}+</div>
+              <div className="text-[10px] text-slate-400">Professors</div>
+            </div>
+            <div className="text-center">
+              <div className="text-sm font-bold text-slate-900 tabular-nums">{courseCount.toLocaleString()}+</div>
+              <div className="text-[10px] text-slate-400">Courses</div>
+            </div>
+            <div className="text-center">
+              <div className="text-sm font-bold text-slate-900 tabular-nums">{sectionCount.toLocaleString()}+</div>
+              <div className="text-[10px] text-slate-400">Sections</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── SCHEDULE BUILDER DEMO ────────────────────────────────────── */}
       <section className="py-20 bg-white border-b border-slate-200/60">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -232,7 +262,7 @@ export default async function HomePage() {
             <div className="relative">
               {/* Glow */}
               <div className="absolute -inset-4 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl blur-2xl opacity-60" />
-              <div className="relative bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+              <div className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden" style={{ boxShadow: '0 40px 80px rgba(0,0,0,0.12)' }}>
 
                 {/* Mock header */}
                 <div className="bg-slate-50 border-b border-slate-200 px-4 py-3 flex items-center justify-between">
@@ -319,7 +349,7 @@ export default async function HomePage() {
               {/* Floating badge */}
               <div className="absolute -bottom-4 -right-4 bg-white border border-slate-200 rounded-xl shadow-lg px-3 py-2 flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-xs font-semibold text-slate-700">Live AUB Data</span>
+                <span className="text-xs font-semibold text-slate-700">Live AUB Registrar Data</span>
               </div>
             </div>
           </div>

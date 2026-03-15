@@ -15,11 +15,21 @@ interface ReviewFormProps {
 const RATING_FIELDS = [
   { key: 'overallRating', label: 'Overall Rating', required: true },
   { key: 'teachingClarity', label: 'Teaching Clarity' },
-  { key: 'workloadLevel', label: 'Workload Level (1=light, 5=heavy)' },
   { key: 'gradingFairness', label: 'Grading Fairness' },
-  { key: 'examDifficulty', label: 'Exam Difficulty (1=easy, 5=hard)' },
   { key: 'attendanceStrict', label: 'Attendance Strictness' },
   { key: 'participation', label: 'Participation Importance' },
+]
+
+const DIFFICULTY_OPTIONS = [
+  { label: 'Easy', value: 2 },
+  { label: 'Medium', value: 3 },
+  { label: 'Hard', value: 5 },
+]
+
+const WORKLOAD_OPTIONS = [
+  { label: 'Light', value: 2 },
+  { label: 'Medium', value: 3 },
+  { label: 'Heavy', value: 5 },
 ]
 
 const GRADES = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D', 'F', 'W', 'I']
@@ -76,6 +86,8 @@ function StarRating({
 export function ReviewForm({ professorId, professorName, courseId, courseName }: ReviewFormProps) {
   const router = useRouter()
   const [ratings, setRatings] = useState<Record<string, number>>({})
+  const [difficulty, setDifficulty] = useState<number | null>(null)
+  const [workload, setWorkload] = useState<number | null>(null)
   const [body, setBody] = useState('')
   const [pros, setPros] = useState('')
   const [cons, setCons] = useState('')
@@ -119,6 +131,8 @@ export function ReviewForm({ professorId, professorName, courseId, courseName }:
           wouldRecommend: wouldRecommend ?? undefined,
           grade: grade || undefined,
           tags: tags.length > 0 ? tags : undefined,
+          examDifficulty: difficulty ?? undefined,
+          workloadLevel: workload ?? undefined,
           ...ratings,
         }),
       })
@@ -163,6 +177,54 @@ export function ReviewForm({ professorId, professorName, courseId, courseName }:
             onChange={v => setRating(field.key, v)}
           />
         ))}
+      </div>
+
+      {/* Difficulty + Workload button groups */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <p className="text-xs text-muted-foreground mb-2">Exam Difficulty</p>
+          <div className="flex gap-1.5">
+            {DIFFICULTY_OPTIONS.map(opt => (
+              <button
+                key={opt.label}
+                type="button"
+                onClick={() => setDifficulty(prev => prev === opt.value ? null : opt.value)}
+                className={cn(
+                  'flex-1 py-2 text-xs font-semibold rounded-lg border transition-colors',
+                  difficulty === opt.value
+                    ? opt.label === 'Easy'   ? 'bg-green-600 text-white border-green-600'
+                    : opt.label === 'Medium' ? 'bg-amber-500 text-white border-amber-500'
+                    :                         'bg-red-600 text-white border-red-600'
+                    : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                )}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="text-xs text-muted-foreground mb-2">Workload</p>
+          <div className="flex gap-1.5">
+            {WORKLOAD_OPTIONS.map(opt => (
+              <button
+                key={opt.label}
+                type="button"
+                onClick={() => setWorkload(prev => prev === opt.value ? null : opt.value)}
+                className={cn(
+                  'flex-1 py-2 text-xs font-semibold rounded-lg border transition-colors',
+                  workload === opt.value
+                    ? opt.label === 'Light'  ? 'bg-green-600 text-white border-green-600'
+                    : opt.label === 'Medium' ? 'bg-amber-500 text-white border-amber-500'
+                    :                         'bg-red-600 text-white border-red-600'
+                    : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50'
+                )}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Tags */}
