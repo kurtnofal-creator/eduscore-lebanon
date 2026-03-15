@@ -19,6 +19,13 @@ export const metadata: Metadata = {
 }
 
 const LIVE_SLUGS = new Set(['aub', 'lau'])
+const LOGO_EXT: Record<string, string> = {
+  aub: 'png', lau: 'png', liu: 'png', bau: 'png',
+  ua: 'png', aust: 'png', aou: 'png', ndu: 'jpg', usek: 'jpg',
+}
+function uniLogoPath(slug: string) {
+  return `/logos/${slug}.${LOGO_EXT[slug] ?? 'svg'}`
+}
 
 async function getHomePageData() {
   const [topProfessors, mostReviewed, recentlyReviewed, stats, universities, sectionCount] = await Promise.all([
@@ -406,7 +413,6 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
             {universities.map(uni => {
               const isLive = LIVE_SLUGS.has(uni.slug)
-              const logoPath = `/logos/${uni.slug}.svg`
               return (
                 <Link
                   key={uni.id}
@@ -415,13 +421,13 @@ export default async function HomePage() {
                   style={{ padding: '20px 16px' }}
                 >
                   {/* Logo */}
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow">
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow bg-white flex items-center justify-center p-1.5">
                     <Image
-                      src={logoPath}
+                      src={uniLogoPath(uni.slug)}
                       alt={`${uni.shortName} logo`}
                       width={64}
                       height={64}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       unoptimized
                     />
                   </div>

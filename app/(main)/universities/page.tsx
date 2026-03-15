@@ -8,6 +8,13 @@ import { getCapability } from '@/lib/university-capabilities'
 
 
 export const dynamic = 'force-dynamic'
+const LOGO_EXT: Record<string, string> = {
+  aub: 'png', lau: 'png', liu: 'png', bau: 'png',
+  ua: 'png', aust: 'png', aou: 'png', ndu: 'jpg', usek: 'jpg',
+}
+function uniLogoPath(slug: string) {
+  return `/logos/${slug}.${LOGO_EXT[slug] ?? 'svg'}`
+}
 export const metadata: Metadata = {
   title: 'Lebanese Universities – Professor Reviews & Course Ratings',
   description: 'Browse professor reviews and course ratings for all major Lebanese universities: AUB, LAU, USJ, LIU, NDU, BAU, AUST, and more.',
@@ -76,8 +83,8 @@ export default async function UniversitiesPage() {
                 className="es-card es-card-link group flex flex-col p-6 cursor-pointer border-green-100 hover:border-green-300"
               >
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow">
-                    <Image src={`/logos/${uni.slug}.svg`} alt={`${uni.shortName} logo`} width={64} height={64} className="w-full h-full object-cover" unoptimized />
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow bg-white border border-slate-100 flex items-center justify-center">
+                    <Image src={uniLogoPath(uni.slug)} alt={`${uni.shortName} logo`} width={64} height={64} className="w-full h-full object-contain p-1" unoptimized />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -130,8 +137,8 @@ export default async function UniversitiesPage() {
                   className="es-card es-card-link group flex flex-col p-6 cursor-pointer"
                 >
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow">
-                      <Image src={`/logos/${uni.slug}.svg`} alt={`${uni.shortName} logo`} width={64} height={64} className="w-full h-full object-cover" unoptimized />
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow bg-white border border-slate-100 flex items-center justify-center">
+                      <Image src={uniLogoPath(uni.slug)} alt={`${uni.shortName} logo`} width={64} height={64} className="w-full h-full object-contain p-1" unoptimized />
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
