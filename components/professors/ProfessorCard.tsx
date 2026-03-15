@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Users, ThumbsUp, ArrowUpRight } from 'lucide-react'
+import { Star, Users, ThumbsUp, ArrowUpRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 function getInitials(name: string) {
@@ -46,34 +46,40 @@ export function ProfessorCard({ professor }: ProfessorCardProps) {
   return (
     <Link
       href={`/professors/${professor.slug}`}
-      className="es-card es-card-link group flex flex-col cursor-pointer hover-lift"
+      className="es-card es-card-link group flex flex-col cursor-pointer"
       style={{ padding: '20px' }}
     >
       {/* Avatar + name row */}
-      <div className="flex items-start gap-3 mb-4">
+      <div className="flex items-start gap-3.5 mb-4">
         {/* Initials avatar */}
-        <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm flex-shrink-0', getAvatarColor(professor.fullName))}>
+        <div className={cn(
+          'prof-avatar w-11 h-11 rounded-xl flex items-center justify-center font-bold text-sm flex-shrink-0 shadow-sm',
+          getAvatarColor(professor.fullName)
+        )}>
           {getInitials(professor.fullName)}
         </div>
 
         {/* Name + dept + rating */}
         <div className="flex-1 min-w-0 pt-0.5">
-          <h3 className="font-semibold text-slate-900 text-[15px] leading-tight group-hover:text-blue-700 transition-colors line-clamp-2">
+          <h3 className="font-semibold text-slate-900 text-[15px] leading-snug group-hover:text-blue-700 transition-colors line-clamp-2">
             {professor.fullName}
           </h3>
           {professor.department && (
-            <p className="text-xs text-slate-400 mt-1 truncate">
+            <p className="text-xs text-slate-400 mt-0.5 truncate">
               {professor.department.name}
               {uni && <span className="text-blue-500 font-medium"> · {uni.shortName}</span>}
             </p>
           )}
-          <div className="mt-1.5">
+          <div className="mt-2">
             {professor.overallRating != null && professor.overallRating > 0 ? (
-              <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-lg bg-amber-100 text-amber-700">
-                ⭐ {professor.overallRating.toFixed(1)}
+              <span className="inline-flex items-center gap-1.5 text-[12px] font-bold px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-200 text-amber-700">
+                <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                {professor.overallRating.toFixed(1)}
               </span>
             ) : (
-              <span className="text-[11px] text-slate-400 italic">No reviews yet — be the first</span>
+              <span className="text-[11px] text-slate-400 italic leading-snug">
+                Be the first student to review this professor.
+              </span>
             )}
           </div>
         </div>
@@ -83,12 +89,12 @@ export function ProfessorCard({ professor }: ProfessorCardProps) {
       {professor.workloadLevel != null && (
         <div className="mb-4">
           <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
-            <span>Workload</span>
-            <span className="font-medium text-slate-500">{professor.workloadLevel.toFixed(1)}/5</span>
+            <span className="font-medium">Workload</span>
+            <span className="font-semibold text-slate-500">{professor.workloadLevel.toFixed(1)}/5</span>
           </div>
-          <div className="rating-bar-track overflow-hidden">
+          <div className="rating-bar-track overflow-hidden rounded-full">
             <div
-              className={cn('h-full rounded-full transition-all', workloadBarClass(professor.workloadLevel))}
+              className={cn('h-full rounded-full transition-all duration-500', workloadBarClass(professor.workloadLevel))}
               style={{ width: `${(professor.workloadLevel / 5) * 100}%` }}
             />
           </div>

@@ -6,8 +6,9 @@ import { ProfessorCard } from '@/components/professors/ProfessorCard'
 import { AdBanner } from '@/components/ads/AdBanner'
 import {
   Star, BookOpen, Calendar, Shield, TrendingUp, Users, ArrowRight,
-  CheckCircle, Zap, Award, Database, MessageSquare, Clock, Copy,
+  CheckCircle, Zap, Award, Database, MessageSquare,
 } from 'lucide-react'
+import { ScheduleBuilderDemo } from '@/components/homepage/ScheduleBuilderDemo'
 
 export const dynamic = 'force-dynamic'
 
@@ -258,94 +259,13 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            {/* Right: mock UI */}
+            {/* Right: animated demo */}
             <div className="relative">
               {/* Glow */}
-              <div className="absolute -inset-4 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl blur-2xl opacity-60" />
-              <div className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden" style={{ boxShadow: '0 40px 80px rgba(0,0,0,0.12)' }}>
-
-                {/* Mock header */}
-                <div className="bg-slate-50 border-b border-slate-200 px-4 py-3 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="flex gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                    </div>
-                    <span className="text-xs text-slate-400 ml-2">Schedule 1 of 12</span>
-                  </div>
-                  <span className="text-xs bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-full">Score 94</span>
-                </div>
-
-                {/* Mock stats strip */}
-                <div className="flex gap-5 px-4 py-2.5 bg-white border-b border-slate-100 text-xs text-slate-500">
-                  <span className="flex items-center gap-1"><BookOpen className="h-3 w-3 text-slate-400" /><strong className="text-slate-700">15</strong> credits</span>
-                  <span className="flex items-center gap-1"><Calendar className="h-3 w-3 text-slate-400" /><strong className="text-slate-700">4</strong> campus days</span>
-                  <span className="flex items-center gap-1"><Clock className="h-3 w-3 text-slate-400" /><strong className="text-slate-700">8:00 – 17:00</strong></span>
-                  <span className="flex items-center gap-1"><Star className="h-3 w-3 text-amber-400" /><strong className="text-slate-700">4.2</strong> avg prof</span>
-                </div>
-
-                {/* Mock week calendar */}
-                <div className="px-4 py-3">
-                  <div className="grid grid-cols-5 gap-1 text-[10px] font-semibold text-slate-400 text-center mb-1">
-                    {['MON', 'TUE', 'WED', 'THU', 'FRI'].map(d => <div key={d}>{d}</div>)}
-                  </div>
-                  <div className="grid grid-cols-5 gap-1 h-28">
-                    {/* MON */}
-                    <div className="flex flex-col gap-1">
-                      <div className="rounded-lg bg-blue-100 border border-blue-200 p-1.5 flex-1">
-                        <p className="text-[9px] font-bold text-blue-700 leading-tight">CMPS 201</p>
-                        <p className="text-[8px] text-blue-500">8:00–9:15</p>
-                      </div>
-                    </div>
-                    {/* TUE */}
-                    <div className="flex flex-col gap-1">
-                      <div className="rounded-lg bg-violet-100 border border-violet-200 p-1.5 flex-1">
-                        <p className="text-[9px] font-bold text-violet-700 leading-tight">MATH 201</p>
-                        <p className="text-[8px] text-violet-500">10:00–11:15</p>
-                      </div>
-                    </div>
-                    {/* WED */}
-                    <div className="flex flex-col gap-1">
-                      <div className="rounded-lg bg-blue-100 border border-blue-200 p-1.5 flex-1">
-                        <p className="text-[9px] font-bold text-blue-700 leading-tight">CMPS 201</p>
-                        <p className="text-[8px] text-blue-500">8:00–9:15</p>
-                      </div>
-                      <div className="rounded-lg bg-emerald-100 border border-emerald-200 p-1.5 flex-1">
-                        <p className="text-[9px] font-bold text-emerald-700 leading-tight">EECE 230</p>
-                        <p className="text-[8px] text-emerald-500">14:00–15:15</p>
-                      </div>
-                    </div>
-                    {/* THU */}
-                    <div className="flex flex-col gap-1">
-                      <div className="rounded-lg bg-violet-100 border border-violet-200 p-1.5 flex-1">
-                        <p className="text-[9px] font-bold text-violet-700 leading-tight">MATH 201</p>
-                        <p className="text-[8px] text-violet-500">10:00–11:15</p>
-                      </div>
-                      <div className="rounded-lg bg-amber-100 border border-amber-200 p-1.5 flex-1">
-                        <p className="text-[9px] font-bold text-amber-700 leading-tight">ENGL 102</p>
-                        <p className="text-[8px] text-amber-500">13:00–14:15</p>
-                      </div>
-                    </div>
-                    {/* FRI */}
-                    <div className="flex flex-col gap-1">
-                      <div className="rounded-lg bg-emerald-100 border border-emerald-200 p-1.5 flex-1">
-                        <p className="text-[9px] font-bold text-emerald-700 leading-tight">EECE 230</p>
-                        <p className="text-[8px] text-emerald-500">9:00–10:15</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Mock CRN copy strip */}
-                <div className="border-t border-slate-100 px-4 py-2.5 bg-slate-50 flex items-center justify-between">
-                  <div className="text-[10px] text-slate-400 font-mono">CRNs: 10234, 10891, 11042, 11340</div>
-                  <button className="flex items-center gap-1 text-[10px] font-semibold text-blue-600 bg-blue-50 border border-blue-200 rounded-lg px-2 py-1">
-                    <Copy className="h-2.5 w-2.5" /> Copy CRNs
-                  </button>
-                </div>
+              <div className="absolute -inset-6 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl blur-3xl opacity-70" />
+              <div className="relative">
+                <ScheduleBuilderDemo />
               </div>
-
               {/* Floating badge */}
               <div className="absolute -bottom-4 -right-4 bg-white border border-slate-200 rounded-xl shadow-lg px-3 py-2 flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -552,16 +472,16 @@ export default async function HomePage() {
             {/* Right: 2x2 feature cards */}
             <div className="grid grid-cols-2 gap-4">
               {[
-                { icon: Shield,     title: 'Moderated',    desc: 'All reviews checked before publishing',   iconBg: 'bg-blue-50',   iconColor: 'text-blue-600'   },
-                { icon: Users,      title: 'Anonymous',    desc: 'Student identities always protected',     iconBg: 'bg-violet-50', iconColor: 'text-violet-600' },
-                { icon: TrendingUp, title: 'Always Fresh', desc: 'Synced every semester with new data',     iconBg: 'bg-green-50',  iconColor: 'text-green-600'  },
-                { icon: Zap,        title: 'Instant',      desc: 'Results and schedules in under a second', iconBg: 'bg-amber-50',  iconColor: 'text-amber-600'  },
+                { icon: Shield,     title: 'Moderated',    desc: 'Every review is checked before publishing',   iconBg: 'bg-blue-50',   iconColor: 'text-blue-600'   },
+                { icon: Users,      title: 'Anonymous',    desc: 'Student identities are always protected',     iconBg: 'bg-violet-50', iconColor: 'text-violet-600' },
+                { icon: TrendingUp, title: 'Always Fresh', desc: 'Data synced every semester from registrar',   iconBg: 'bg-green-50',  iconColor: 'text-green-600'  },
+                { icon: Zap,        title: 'Instant',      desc: 'Schedules generated in under a second',       iconBg: 'bg-amber-50',  iconColor: 'text-amber-600'  },
               ].map(({ icon: Icon, title, desc, iconBg, iconColor }) => (
-                <div key={title} className="es-card p-5">
-                  <div className={`w-10 h-10 rounded-xl mb-3 flex items-center justify-center ${iconBg}`}>
-                    <Icon className={`h-5 w-5 ${iconColor}`} />
+                <div key={title} className="es-card p-5 trust-icon-wrap">
+                  <div className={`w-12 h-12 rounded-2xl mb-3.5 flex items-center justify-center shadow-sm ${iconBg}`}>
+                    <Icon className={`h-6 w-6 ${iconColor}`} />
                   </div>
-                  <p className="font-semibold text-slate-900 text-sm mb-1">{title}</p>
+                  <p className="font-semibold text-slate-900 text-sm mb-1.5">{title}</p>
                   <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
                 </div>
               ))}
@@ -571,27 +491,29 @@ export default async function HomePage() {
       </section>
 
       {/* ── CTA BAND ─────────────────────────────────────────────────── */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700">
+      <section className="py-24" style={{ background: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 40%, #4338ca 100%)' }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <p className="text-[11px] font-bold text-blue-300 uppercase tracking-widest mb-4">Join the community</p>
           <h2
-            className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight"
+            className="text-3xl md:text-4xl font-bold text-white mb-5 leading-tight"
             style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
           >
             Help your fellow students decide.
           </h2>
-          <p className="text-blue-100 text-lg mb-10 max-w-xl mx-auto">
+          <p className="text-blue-200 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
             Share your experience anonymously. One review helps thousands of students pick the right courses every semester.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/login"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-blue-700 font-semibold rounded-xl text-[15px] hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              className="btn-cta-glow inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-blue-700 font-bold rounded-xl text-[15px] hover:bg-blue-50 transition-all shadow-2xl hover:shadow-white/20 hover:-translate-y-0.5"
+              style={{ boxShadow: '0 0 40px rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.2)' }}
             >
               <Star className="h-4 w-4" /> Write a Review
             </Link>
             <Link
               href="/schedule-builder"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border-2 border-white/30 text-white font-semibold rounded-xl text-[15px] hover:bg-white/10 transition-all"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/25 text-white font-semibold rounded-xl text-[15px] hover:bg-white/10 hover:border-white/40 transition-all backdrop-blur-sm"
             >
               <Calendar className="h-4 w-4" /> Build a Schedule
             </Link>

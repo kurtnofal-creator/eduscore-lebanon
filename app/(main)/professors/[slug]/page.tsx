@@ -7,7 +7,7 @@ import { ReviewForm } from '@/components/reviews/ReviewForm'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { WatchButton } from '@/components/professors/WatchButton'
 import { auth } from '@/lib/auth'
-import { Star, Users, BookOpen, ThumbsUp, ChevronRight, Award, TrendingDown, TrendingUp, Clock, PenLine, Shield } from 'lucide-react'
+import { Star, Users, BookOpen, ThumbsUp, ChevronRight, Award, TrendingDown, TrendingUp, Clock, PenLine, Shield, MessageSquare } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { trackEvent } from '@/lib/analytics'
 import { DataReportButton } from '@/components/DataReportButton'
@@ -105,6 +105,30 @@ const WEAKNESS_LABELS = [
   'Difficult exams', 'Heavy workload', 'Strict attendance',
   'Dry delivery', 'Sometimes unclear', 'Tough grader',
 ]
+function buildStudentSummary(
+  prof: {
+    overallRating?: number | null
+    recommendRate?: number | null
+    workloadLevel?: number | null
+    examDifficulty?: number | null
+    reviewCount: number
+  },
+  insights: { strengths: string[]; weaknesses: string[] }
+): string[] {
+  const bullets: string[] = []
+  if ((prof.recommendRate ?? 0) >= 80) {
+    bullets.push(`${Math.round(prof.recommendRate!)}% of students would take this professor again`)
+  } else if ((prof.recommendRate ?? 100) < 50 && prof.reviewCount >= 5) {
+    bullets.push(`Mixed reception — under half of reviewers would recommend`)
+  }
+  bullets.push(...insights.strengths.slice(0, 2))
+  if ((prof.workloadLevel ?? 0) >= 4) bullets.push('Expect a heavy workload — plan your schedule accordingly')
+  else if ((prof.workloadLevel ?? 0) > 0 && (prof.workloadLevel ?? 0) <= 2) bullets.push('Light workload — good for balancing with heavier courses')
+  if ((prof.examDifficulty ?? 0) >= 4) bullets.push('Exams are challenging — past papers and office hours help a lot')
+  bullets.push(...insights.weaknesses.slice(0, 1))
+  return bullets.slice(0, 5)
+}
+
 function extractInsights(reviews: Array<{ pros?: string | null; cons?: string | null }>) {
   const allPros = reviews.map(r => (r.pros ?? '').toLowerCase()).join(' ')
   const allCons = reviews.map(r => (r.cons ?? '').toLowerCase()).join(' ')
@@ -149,6 +173,7 @@ export default async function ProfessorPage({ params }: Props) {
   const dept = professor.department
   const tags = autoTags(professor)
   const insights = extractInsights(professor.reviews)
+  const studentSummary = buildStudentSummary(professor, insights)
 
   // Compute top tags from reviews
   const tagCounts: Record<string, number> = {}
@@ -353,9 +378,39 @@ export default async function ProfessorPage({ params }: Props) {
 
             {/* Reviews */}
             <div>
+              {/* What Students Say — AI summary */}
+              {professor.reviewCount >= 5 && studentSummary.length > 0 ? (
+                <div className="es-card p-5 mb-4 border-blue-100 bg-gradient-to-br from-blue-50/60 to-white">
+                  <h3 className="font-semibold text-slate-900 mb-3.5 flex items-center gap-2 text-sm">
+                    <div className="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center flex-shrink-0">
+                      <MessageSquare className="h-3.5 w-3.5 text-white" />
+                    </div>
+                    What Students Say
+                  </h3>
+                  <ul className="space-y-2.5">
+                    {studentSummary.map((bullet, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600 leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
+                        {bullet}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-[10px] text-slate-400 mt-3.5 pt-3 border-t border-slate-100">
+                    Generated from {professor.reviewCount} student reviews · Reviews are anonymous
+                  </p>
+                </div>
+              ) : professor.reviewCount > 0 && professor.reviewCount < 5 ? (
+                <div className="es-card p-4 mb-4 bg-slate-50 border-slate-200">
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <MessageSquare className="h-4 w-4 flex-shrink-0" />
+                    <p className="text-xs">Not enough reviews yet to generate a summary. Be the first to share your experience.</p>
+                  </div>
+                </div>
+              ) : null}
+
               {topTags.length > 0 && (
                 <div className="es-card p-4 mb-4">
-                  <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-2.5">Students often mention</p>
+                  <p className="section-label mb-2.5">Students often mention</p>
                   <div className="flex flex-wrap gap-2">
                     {topTags.map(tag => (
                       <span key={tag} className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-xs font-medium text-blue-700">{tag}</span>
