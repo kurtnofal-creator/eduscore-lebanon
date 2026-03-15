@@ -160,7 +160,7 @@ export default async function ProfessorPage({ params }: Props) {
             overallRating: true, teachingClarity: true, workloadLevel: true,
             gradingFairness: true, attendanceStrict: true, examDifficulty: true,
             wouldRecommend: true, grade: true, termTaken: true,
-            helpfulCount: true, createdAt: true,
+            helpfulCount: true, createdAt: true, updatedAt: true, userId: true,
           },
         },
       },
@@ -440,7 +440,13 @@ export default async function ProfessorPage({ params }: Props) {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {professor.reviews.map(review => <ReviewCard key={review.id} review={review} />)}
+                  {professor.reviews.map(review => (
+                    <ReviewCard
+                      key={review.id}
+                      review={review}
+                      isOwner={!!(session?.user?.id && review.userId === session.user.id)}
+                    />
+                  ))}
                 </div>
               )}
             </div>
@@ -460,7 +466,15 @@ export default async function ProfessorPage({ params }: Props) {
                     You&apos;ve already reviewed this professor. Thank you!
                   </p>
                 ) : (
-                  <ReviewForm professorId={professor.id} professorName={professor.fullName} />
+                  <ReviewForm
+                    professorId={professor.id}
+                    professorName={professor.fullName}
+                    professorCourses={professor.professorCourses.map(pc => ({
+                      id: pc.course.id,
+                      code: pc.course.code,
+                      name: pc.course.name,
+                    }))}
+                  />
                 )
               ) : (
                 <div className="text-center py-3">

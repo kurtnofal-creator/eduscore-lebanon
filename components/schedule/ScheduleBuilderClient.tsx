@@ -71,6 +71,7 @@ export function ScheduleBuilderClient({ terms, universities }: { terms: Term[]; 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [error, setError] = useState('')
   const [saveSuccess, setSaveSuccess] = useState(false)
+  const [savedScheduleId, setSavedScheduleId] = useState<string | null>(null)
   const [copiedCRNs, setCopiedCRNs] = useState(false)
   const [copiedSummary, setCopiedSummary] = useState(false)
   const [shareCopied, setShareCopied] = useState(false)
@@ -196,12 +197,55 @@ export function ScheduleBuilderClient({ terms, universities }: { terms: Term[]; 
         name: `Schedule ${currentIndex + 1}`,
       }),
     })
-    if (res.ok) { setSaveSuccess(true); setTimeout(() => setSaveSuccess(false), 2000) }
+    if (res.ok) {
+      const data = await res.json()
+      if (data.schedule?.id) setSavedScheduleId(data.schedule.id)
+      setSaveSuccess(true)
+      setTimeout(() => setSaveSuccess(false), 2000)
+    }
   }
 
-  const shareSchedule = () => {
+  const shareSchedule = async () => {
     const current = schedules[currentIndex]
     if (!current) return
+
+    // If already saved, use the persistent share URL
+    if (savedScheduleId) {
+      const url = `${window.location.origin}/schedule/${savedScheduleId}`
+      navigator.clipboard.writeText(url).then(() => {
+        setShareCopied(true)
+        setTimeout(() => setShareCopied(false), 2000)
+      }).catch(() => {})
+      return
+    }
+
+    // Save first, then share
+    if (session?.user) {
+      const res = await fetch('/api/schedules/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sectionIds: current.sections.map(s => s.id),
+          termId: selectedTerm,
+          name: `Schedule ${currentIndex + 1}`,
+        }),
+      })
+      if (res.ok) {
+        const data = await res.json()
+        const id = data.schedule?.id
+        if (id) {
+          setSavedScheduleId(id)
+          const url = `${window.location.origin}/schedule/${id}`
+          navigator.clipboard.writeText(url).then(() => {
+            setShareCopied(true)
+            setTimeout(() => setShareCopied(false), 2000)
+          }).catch(() => {})
+          return
+        }
+      }
+    }
+
+    // Fallback: encode in URL
     const payload = { sIds: current.sections.map(s => s.id), t: selectedTerm }
     const encoded = btoa(JSON.stringify(payload))
     const url = `${window.location.origin}/schedule-builder?s=${encoded}`

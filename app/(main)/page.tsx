@@ -113,13 +113,10 @@ export default async function HomePage() {
       <section className="hero-gradient border-b border-slate-200/60" style={{ background: 'radial-gradient(circle at top, #eef3ff, #f8fafc, #ffffff)' }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-20 md:pt-24 md:pb-28 text-center">
 
-          {/* Trusted by line */}
-          <p className="text-sm font-medium text-slate-500 mb-4">Trusted by students at <span className="font-bold text-slate-700">AUB</span> and <span className="font-bold text-slate-700">LAU</span></p>
-
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-8">
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse flex-shrink-0" />
-            <span className="text-xs font-semibold text-blue-600 tracking-wide">Lebanon&apos;s #1 Academic Review Platform</span>
+          <div className="inline-flex items-center gap-2 bg-green-50 border border-green-200 rounded-full px-4 py-1.5 mb-8">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
+            <span className="text-xs font-semibold text-green-700 tracking-wide">Live university course data</span>
           </div>
 
           {/* Headline */}
@@ -164,28 +161,6 @@ export default async function HomePage() {
             />
           </div>
 
-          {/* University chips */}
-          <div className="flex flex-wrap justify-center gap-2 mb-12">
-            {universities.map(u => {
-              const isLive = LIVE_SLUGS.has(u.slug)
-              return (
-                <Link
-                  key={u.id}
-                  href={`/universities/${u.slug}`}
-                  className={
-                    isLive
-                      ? 'inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-green-200 bg-green-50 text-[13px] font-semibold text-green-700 hover:border-green-300 hover:bg-green-100 transition-all shadow-sm'
-                      : 'px-4 py-1.5 rounded-full border border-slate-200 bg-white text-[13px] font-semibold text-slate-500 hover:border-blue-200 hover:text-blue-700 hover:bg-blue-50 transition-all shadow-sm hover:shadow-blue-100'
-                  }
-                >
-                  {isLive && <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />}
-                  {u.shortName}
-                  {isLive && <span className="text-[10px] font-bold text-green-600 uppercase tracking-wide">Live</span>}
-                </Link>
-              )
-            })}
-          </div>
-
           {/* Stats row */}
           <div className="w-full max-w-2xl mx-auto grid grid-cols-2 sm:grid-cols-5 gap-px bg-slate-200/60 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
             {[
@@ -205,36 +180,6 @@ export default async function HomePage() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── CREDIBILITY BAR ──────────────────────────────────────────── */}
-      <section className="bg-white border-b border-slate-100 py-4">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest flex-shrink-0">Trusted by students at</span>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-green-200 bg-green-50 text-xs font-bold text-green-700">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />AUB
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-green-200 bg-green-50 text-xs font-bold text-green-700">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500" />LAU
-            </span>
-          </div>
-          <div className="hidden sm:block w-px h-5 bg-slate-200" />
-          <div className="flex items-center gap-6">
-            <div className="text-center">
-              <div className="text-sm font-bold text-slate-900 tabular-nums">{profCount.toLocaleString()}+</div>
-              <div className="text-[10px] text-slate-400">Professors</div>
-            </div>
-            <div className="text-center">
-              <div className="text-sm font-bold text-slate-900 tabular-nums">{courseCount.toLocaleString()}+</div>
-              <div className="text-[10px] text-slate-400">Courses</div>
-            </div>
-            <div className="text-center">
-              <div className="text-sm font-bold text-slate-900 tabular-nums">{sectionCount.toLocaleString()}+</div>
-              <div className="text-[10px] text-slate-400">Sections</div>
-            </div>
           </div>
         </div>
       </section>

@@ -137,7 +137,7 @@ export default async function CoursePage({ params }: Props) {
             overallRating: true, teachingClarity: true, workloadLevel: true,
             gradingFairness: true, attendanceStrict: true, examDifficulty: true,
             wouldRecommend: true, grade: true, termTaken: true,
-            helpfulCount: true, createdAt: true,
+            helpfulCount: true, createdAt: true, updatedAt: true, userId: true,
           },
         },
       },
@@ -260,7 +260,13 @@ export default async function CoursePage({ params }: Props) {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {course.reviews.map(r => <ReviewCard key={r.id} review={r} />)}
+                  {course.reviews.map(r => (
+                    <ReviewCard
+                      key={r.id}
+                      review={r}
+                      isOwner={!!(session?.user?.id && r.userId === session.user.id)}
+                    />
+                  ))}
                 </div>
               )}
             </div>
