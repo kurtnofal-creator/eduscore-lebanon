@@ -23,6 +23,11 @@ const LOGO_EXT: Record<string, string> = {
   aub: 'png', lau: 'png', liu: 'png', bau: 'png',
   ua: 'png', aust: 'png', aou: 'png', ndu: 'jpg', usek: 'jpg',
 }
+// Universities whose logos are white-on-transparent — need a brand bg
+const LOGO_BG: Record<string, string> = {
+  aub: '#002776',
+  bau: '#006d77',
+}
 function uniLogoPath(slug: string) {
   return `/logos/${slug}.${LOGO_EXT[slug] ?? 'svg'}`
 }
@@ -421,7 +426,10 @@ export default async function HomePage() {
                   style={{ padding: '20px 16px' }}
                 >
                   {/* Logo */}
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow bg-white flex items-center justify-center p-1.5">
+                  <div
+                    className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow flex items-center justify-center p-1.5"
+                    style={{ background: LOGO_BG[uni.slug] ?? '#ffffff' }}
+                  >
                     <Image
                       src={uniLogoPath(uni.slug)}
                       alt={`${uni.shortName} logo`}

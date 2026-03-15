@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
         where: {
           isActive: true,
           isMerged: false,
-          fullName: { contains: q },
+          fullName: { contains: q, mode: 'insensitive' },
           ...(universityId && { department: { faculty: { universityId } } }),
         },
         select: {
@@ -57,8 +57,8 @@ export async function GET(req: NextRequest) {
         where: {
           isActive: true,
           OR: [
-            { name: { contains: q } },
-            { code: { contains: q } },
+            { name: { contains: q, mode: 'insensitive' } },
+            { code: { contains: q, mode: 'insensitive' } },
           ],
           ...(universityId && { department: { faculty: { universityId } } }),
         },
@@ -88,8 +88,8 @@ export async function GET(req: NextRequest) {
         where: {
           isActive: true,
           OR: [
-            { name: { contains: q } },
-            { shortName: { contains: q } },
+            { name: { contains: q, mode: 'insensitive' } },
+            { shortName: { contains: q, mode: 'insensitive' } },
           ],
         },
         select: { id: true, name: true, shortName: true, slug: true, city: true },

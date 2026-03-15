@@ -12,6 +12,10 @@ const LOGO_EXT: Record<string, string> = {
   aub: 'png', lau: 'png', liu: 'png', bau: 'png',
   ua: 'png', aust: 'png', aou: 'png', ndu: 'jpg', usek: 'jpg',
 }
+const LOGO_BG: Record<string, string> = {
+  aub: '#002776',
+  bau: '#006d77',
+}
 function uniLogoPath(slug: string) {
   return `/logos/${slug}.${LOGO_EXT[slug] ?? 'svg'}`
 }
@@ -83,7 +87,7 @@ export default async function UniversitiesPage() {
                 className="es-card es-card-link group flex flex-col p-6 cursor-pointer border-green-100 hover:border-green-300"
               >
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow bg-white border border-slate-100 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow flex items-center justify-center" style={{ background: LOGO_BG[uni.slug] ?? '#ffffff', border: LOGO_BG[uni.slug] ? 'none' : '1px solid #f1f5f9' }}>
                     <Image src={uniLogoPath(uni.slug)} alt={`${uni.shortName} logo`} width={64} height={64} className="w-full h-full object-contain p-1" unoptimized />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -137,7 +141,7 @@ export default async function UniversitiesPage() {
                   className="es-card es-card-link group flex flex-col p-6 cursor-pointer"
                 >
                   <div className="flex items-start gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow bg-white border border-slate-100 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm group-hover:shadow-md transition-shadow flex items-center justify-center" style={{ background: LOGO_BG[uni.slug] ?? '#ffffff', border: LOGO_BG[uni.slug] ? 'none' : '1px solid #f1f5f9' }}>
                       <Image src={uniLogoPath(uni.slug)} alt={`${uni.shortName} logo`} width={64} height={64} className="w-full h-full object-contain p-1" unoptimized />
                     </div>
                     <div className="min-w-0">
