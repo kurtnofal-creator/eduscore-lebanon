@@ -78,6 +78,13 @@ async function getHomePageData() {
 }
 
 export default async function HomePage() {
+  let data
+  try {
+    data = await getHomePageData()
+  } catch (err) {
+    console.error('[HomePage] getHomePageData failed:', err)
+    throw err
+  }
   const {
     topProfessors,
     mostReviewed,
@@ -85,7 +92,7 @@ export default async function HomePage() {
     stats: [profCount, courseCount, reviewCount, uniCount],
     universities,
     sectionCount,
-  } = await getHomePageData()
+  } = data
 
   return (
     <>
