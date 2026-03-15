@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         isActive: true,
       },
       include: {
-        course: { select: { id: true, code: true, name: true } },
+        course: { select: { id: true, code: true, name: true, credits: true } },
         professors: {
           select: {
             confidence: true,
@@ -82,6 +82,7 @@ export async function POST(req: NextRequest) {
           courseId: s.courseId,
           courseName: s.course.name,
           courseCode: s.course.code,
+          courseCredits: s.course.credits ?? null,
           professors: s.professors.map(sp => ({
             id: sp.professor.id,
             fullName: sp.professor.fullName,

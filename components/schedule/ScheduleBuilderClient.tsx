@@ -957,7 +957,8 @@ export function ScheduleBuilderClient({ terms, universities }: { terms: Term[]; 
                             <th className="text-left text-[11px] font-semibold text-slate-400 pb-2 pr-4">Section</th>
                             <th className="text-left text-[11px] font-semibold text-slate-400 pb-2 pr-4">CRN</th>
                             <th className="text-left text-[11px] font-semibold text-slate-400 pb-2 pr-4">Professor</th>
-                            <th className="text-left text-[11px] font-semibold text-slate-400 pb-2">Days / Times</th>
+                            <th className="text-left text-[11px] font-semibold text-slate-400 pb-2 pr-4">Days / Times</th>
+                            <th className="text-right text-[11px] font-semibold text-slate-400 pb-2">Cr</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -980,11 +981,20 @@ export function ScheduleBuilderClient({ terms, universities }: { terms: Term[]; 
                                   }
                                 </td>
                                 <td className="py-2.5 pr-4 text-xs text-slate-600 max-w-[140px] truncate">{prof}</td>
-                                <td className="py-2.5 text-[11px] text-slate-500">{times}</td>
+                                <td className="py-2.5 pr-4 text-[11px] text-slate-500">{times}</td>
+                                <td className="py-2.5 text-right text-xs font-semibold text-slate-700">
+                                  {s.courseCredits != null ? s.courseCredits : <span className="text-slate-300">—</span>}
+                                </td>
                               </tr>
                             )
                           })}
                         </tbody>
+                        <tfoot>
+                          <tr className="border-t-2 border-slate-200">
+                            <td colSpan={5} className="pt-2.5 text-xs text-slate-500 font-medium">Total Credits</td>
+                            <td className="pt-2.5 text-right text-sm font-bold text-blue-600">{totalCredits || '—'}</td>
+                          </tr>
+                        </tfoot>
                       </table>
                     </div>
                   </div>

@@ -23,6 +23,7 @@ export interface SectionData {
   meetings: MeetingTime[]
   location?: string | null
   crn?: string | null
+  courseCredits?: number | null
   // Data quality & freshness
   status?: string | null          // OPEN | CLOSED | WAITLIST | UNKNOWN
   seatsRemaining?: number | null
