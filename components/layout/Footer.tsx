@@ -31,7 +31,7 @@ const LINKS = {
 
 export function Footer() {
   return (
-    <footer className="bg-slate-900 text-white">
+    <footer className="bg-slate-900 text-white border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10">
 
@@ -43,7 +43,7 @@ export function Footer() {
               </div>
               <span className="font-bold text-white text-[15px]">EduScore Lebanon</span>
             </Link>
-            <p className="text-sm text-slate-400 leading-relaxed max-w-[180px]">
+            <p className="text-sm text-slate-400 leading-relaxed max-w-[200px]">
               Built for Lebanese university students 🇱🇧
             </p>
             <div className="flex items-center gap-3 mt-4">

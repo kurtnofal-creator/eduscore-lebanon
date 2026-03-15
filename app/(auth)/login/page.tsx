@@ -27,7 +27,7 @@ export default async function LoginPage() {
         </Link>
 
         <div>
-          <h1 className="text-4xl font-bold text-white leading-tight mb-4" style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h1 className="text-4xl font-bold text-white leading-tight mb-4" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
             Make smarter decisions before you register.
           </h1>
           <p className="text-blue-100 text-lg leading-relaxed mb-10">
@@ -73,7 +73,7 @@ export default async function LoginPage() {
 
         <div className="w-full max-w-[400px]">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-slate-900" style={{ fontFamily: 'Poppins, sans-serif' }}>
+            <h2 className="text-2xl font-bold text-slate-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
               Welcome back
             </h2>
             <p className="text-slate-500 text-sm mt-2">

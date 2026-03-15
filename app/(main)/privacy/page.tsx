@@ -14,7 +14,7 @@ export default function PrivacyPage() {
         <div className="inline-flex items-center gap-2 text-blue-600 text-sm font-semibold mb-4">
           <Shield className="h-4 w-4" /> Legal
         </div>
-        <h1 className="text-4xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Poppins, sans-serif' }}>Privacy Policy</h1>
+        <h1 className="text-4xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>Privacy Policy</h1>
         <p className="text-slate-500">Last updated: January 2025</p>
       </div>
 

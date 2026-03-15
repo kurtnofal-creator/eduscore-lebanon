@@ -68,7 +68,8 @@ export function ProfessorCard({ professor }: ProfessorCardProps) {
   return (
     <Link
       href={`/professors/${professor.slug}`}
-      className="es-card es-card-link group flex flex-col p-5 cursor-pointer"
+      className="es-card es-card-link group flex flex-col cursor-pointer hover-lift"
+      style={{ padding: '20px' }}
     >
       {/* Avatar + name row */}
       <div className="flex items-start gap-3 mb-4">

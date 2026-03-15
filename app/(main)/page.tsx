@@ -111,7 +111,7 @@ export default async function HomePage() {
             className="hero-heading font-bold text-slate-900 tracking-tight mb-5"
             style={{
               fontSize: 'clamp(2.4rem, 6vw, 4rem)',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'Inter, system-ui, sans-serif',
               lineHeight: 1.06,
             }}
           >
@@ -184,7 +184,7 @@ export default async function HomePage() {
                   <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-blue-600" />
                 </div>
                 <div className="text-left">
-                  <div className="font-bold text-slate-900 text-[13px] sm:text-[15px] leading-none tabular-nums" style={{ fontFamily: 'Poppins, sans-serif' }}>{n}</div>
+                  <div className="font-bold text-slate-900 text-[13px] sm:text-[15px] leading-none tabular-nums">{n}</div>
                   <div className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5 whitespace-nowrap">{label}</div>
                 </div>
               </div>
@@ -201,7 +201,7 @@ export default async function HomePage() {
             {/* Left: copy */}
             <div>
               <p className="section-label mb-3">Schedule builder</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-5 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-5 leading-tight" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                 Every valid schedule,<br />ranked for you.
               </h2>
               <p className="text-slate-500 text-base leading-relaxed mb-8">
@@ -328,7 +328,7 @@ export default async function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <p className="section-label mb-3">How it works</p>
-            <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Poppins, sans-serif' }}>
+            <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
               Three steps to a better semester
             </h2>
           </div>
@@ -349,12 +349,12 @@ export default async function HomePage() {
             ].map(({ n, icon: Icon, title, desc }) => (
               <div key={n} className="relative es-card p-7 group">
                 {/* Step number */}
-                <div className="absolute top-4 right-4 text-[11px] font-bold text-slate-300/70 font-mono tracking-[0.15em] select-none" style={{ fontFamily: 'Poppins, sans-serif', fontSize: 28, lineHeight: 1 }}>{n}</div>
+                <div className="absolute top-4 right-4 text-[11px] font-bold text-slate-300/70 font-mono tracking-[0.15em] select-none" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: 28, lineHeight: 1 }}>{n}</div>
                 {/* Icon */}
                 <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center mb-5 transition-colors group-hover:bg-blue-600">
                   <Icon className="h-5 w-5 text-blue-600 transition-colors group-hover:text-white" />
                 </div>
-                <h3 className="font-semibold text-slate-900 text-[17px] mb-2" style={{ fontFamily: 'Poppins, sans-serif' }}>{title}</h3>
+                <h3 className="font-semibold text-slate-900 text-[17px] mb-2" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>{title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
@@ -368,7 +368,7 @@ export default async function HomePage() {
           <div className="flex items-end justify-between mb-10">
             <div>
               <p className="section-label mb-2">Community picks</p>
-              <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Poppins, sans-serif' }}>Top-Rated Professors</h2>
+              <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>Top-Rated Professors</h2>
             </div>
             <Link href="/professors" className="flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
               View all <ArrowRight className="h-4 w-4" />
@@ -398,7 +398,7 @@ export default async function HomePage() {
             <div className="flex items-end justify-between mb-10">
               <div>
                 <p className="section-label mb-2">Most talked about</p>
-                <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Poppins, sans-serif' }}>Most Reviewed Professors</h2>
+                <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>Most Reviewed Professors</h2>
               </div>
               <Link href="/professors?sort=reviews" className="flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
                 View all <ArrowRight className="h-4 w-4" />
@@ -411,14 +411,20 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ── RECENTLY REVIEWED PROFESSORS ─────────────────────────────── */}
+      {/* ── TRENDING THIS WEEK ───────────────────────────────────────── */}
       {recentlyReviewed.length > 0 && (
         <section className="py-20 bg-slate-50 border-b border-slate-200/60">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="flex items-end justify-between mb-10">
               <div>
-                <p className="section-label mb-2">Fresh takes</p>
-                <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Poppins, sans-serif' }}>Recently Reviewed</h2>
+                <p className="section-label mb-2">Trending this week</p>
+                <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+                  <span className="inline-flex items-center gap-2">
+                    <TrendingUp className="h-7 w-7 text-blue-600" />
+                    Most Active Professors
+                  </span>
+                </h2>
+                <p className="text-sm text-slate-400 mt-1">Professors with the most recent student activity</p>
               </div>
               <Link href="/professors?sort=recent" className="flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors">
                 View all <ArrowRight className="h-4 w-4" />
@@ -441,7 +447,7 @@ export default async function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <p className="section-label mb-3">Supported schools</p>
-            <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Poppins, sans-serif' }}>Browse by University</h2>
+            <h2 className="text-3xl font-bold text-slate-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>Browse by University</h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
             {universities.map(uni => {
@@ -451,12 +457,8 @@ export default async function HomePage() {
                   key={uni.id}
                   href={`/universities/${uni.slug}`}
                   className="es-card es-card-link p-5 flex flex-col items-center gap-3 text-center group cursor-pointer relative"
+                  style={{ padding: '20px 16px' }}
                 >
-                  {isLive && (
-                    <span className="absolute top-2 right-2 text-[9px] font-bold text-green-600 bg-green-50 border border-green-200 rounded-full px-1.5 py-0.5 leading-none">
-                      Live
-                    </span>
-                  )}
                   <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-700 font-bold text-sm transition-all group-hover:bg-blue-600 group-hover:text-white">
                     {uni.shortName.slice(0, 3)}
                   </div>
@@ -464,6 +466,16 @@ export default async function HomePage() {
                     <p className="font-semibold text-slate-900 text-sm">{uni.shortName}</p>
                     {uni.city && <p className="text-xs text-slate-400 mt-0.5">{uni.city}</p>}
                   </div>
+                  {isLive ? (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-700 bg-green-50 border border-green-200 rounded-full px-2 py-0.5 leading-none">
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                      LIVE DATA
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-semibold text-slate-400 bg-slate-100 border border-slate-200 rounded-full px-2 py-0.5 leading-none">
+                      Coming Soon
+                    </span>
+                  )}
                 </Link>
               )
             })}
@@ -478,7 +490,7 @@ export default async function HomePage() {
             {/* Left: copy + checklist + buttons */}
             <div>
               <p className="section-label mb-3">Why students trust us</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-5 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-5 leading-tight" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                 Reviews worth reading
               </h2>
               <p className="text-slate-500 text-base leading-relaxed mb-8">
@@ -530,7 +542,7 @@ export default async function HomePage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
           <h2
             className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight"
-            style={{ fontFamily: 'Poppins, sans-serif' }}
+            style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
           >
             Help your fellow students decide.
           </h2>

@@ -78,6 +78,14 @@ export function ReviewCard({ review, showProfessor = false }: ReviewCardProps) {
         )}
 
         <div className="flex-1 min-w-0">
+          {/* Reviewer identity — always anonymous */}
+          <div className="flex items-center gap-2 flex-wrap mb-1">
+            <span className="text-sm font-semibold text-slate-700">Anonymous Student</span>
+            <span className="text-[10px] text-slate-400 bg-slate-100 border border-slate-200 rounded-full px-2 py-0.5 font-medium">
+              Reviews are always anonymous
+            </span>
+          </div>
+
           <div className="flex items-center gap-2 flex-wrap">
             {review.wouldRecommend != null && (
               <span className={cn('flex items-center gap-1 text-xs font-semibold', review.wouldRecommend ? 'text-green-600' : 'text-red-500')}>
@@ -95,7 +103,7 @@ export function ReviewCard({ review, showProfessor = false }: ReviewCardProps) {
           </div>
 
           <div className="flex items-center gap-2 text-xs text-slate-400 mt-1.5">
-            {review.termTaken && <span>{review.termTaken}</span>}
+            {review.termTaken && <span className="font-medium text-slate-500">{review.termTaken}</span>}
             {review.termTaken && <span>·</span>}
             <span>{timeAgo(review.createdAt)}</span>
             {showProfessor && review.professor && (

@@ -43,9 +43,9 @@ export function Header() {
             </div>
             <div className="hidden sm:flex items-baseline gap-0.5">
               <span className="font-bold text-slate-900 text-[15px] tracking-tight leading-none"
-                style={{ fontFamily: 'Poppins, sans-serif' }}>EduScore</span>
+                style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>EduScore</span>
               <span className="text-blue-600 font-bold text-[15px] tracking-tight leading-none"
-                style={{ fontFamily: 'Poppins, sans-serif' }}> Lebanon</span>
+                style={{ fontFamily: 'Inter, system-ui, sans-serif' }}> Lebanon</span>
             </div>
           </Link>
 

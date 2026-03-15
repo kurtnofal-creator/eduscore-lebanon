@@ -7,7 +7,7 @@ import { ReviewForm } from '@/components/reviews/ReviewForm'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { WatchButton } from '@/components/professors/WatchButton'
 import { auth } from '@/lib/auth'
-import { Star, Users, BookOpen, ThumbsUp, ChevronRight, Award, TrendingDown, TrendingUp, Clock, PenLine } from 'lucide-react'
+import { Star, Users, BookOpen, ThumbsUp, ChevronRight, Award, TrendingDown, TrendingUp, Clock, PenLine, Shield } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { trackEvent } from '@/lib/analytics'
 import { DataReportButton } from '@/components/DataReportButton'
@@ -42,7 +42,7 @@ function RatingBadgeLarge({ value }: { value: number | null | undefined }) {
   const label = value >= 4.5 ? 'Awesome' : value >= 4 ? 'Good' : value >= 3 ? 'Average' : 'Poor'
   return (
     <div className={cn('w-24 h-24 rounded-2xl flex flex-col items-center justify-center border', cls[0], cls[1])}>
-      <span className="text-3xl font-black text-white leading-none" style={{ fontFamily: 'Poppins, sans-serif' }}>{value.toFixed(1)}</span>
+      <span className="text-3xl font-black text-white leading-none" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>{value.toFixed(1)}</span>
       <span className="text-[10px] font-bold text-white/80 mt-1 uppercase tracking-wide">{label}</span>
     </div>
   )
@@ -186,7 +186,7 @@ export default async function ProfessorPage({ params }: Props) {
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                     {professor.title && <span className="text-slate-400 font-normal">{professor.title} </span>}
                     {professor.fullName}
                   </h1>
@@ -335,9 +335,13 @@ export default async function ProfessorPage({ params }: Props) {
 
             {/* Reviews */}
             <div>
-              <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center justify-between mb-3">
                 <h2 className="text-xl font-bold text-slate-900">Student Reviews</h2>
                 <span className="text-sm text-slate-400 bg-slate-100 px-3 py-1 rounded-full">{professor.reviewCount} total</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2">
+                <Shield className="h-3.5 w-3.5 text-slate-400 flex-shrink-0" />
+                <span>Reviews are always anonymous. Student identities are never shared.</span>
               </div>
 
               {professor.reviews.length === 0 ? (

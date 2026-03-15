@@ -32,7 +32,7 @@ function StatPill({ label, value, color }: { label: string; value: string | numb
   if (value == null) return null
   return (
     <div className={cn('flex flex-col items-center p-4 rounded-2xl border', color)}>
-      <span className="text-2xl font-black leading-none" style={{ fontFamily: 'Poppins, sans-serif' }}>
+      <span className="text-2xl font-black leading-none" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
         {typeof value === 'number' ? value.toFixed(1) : value}
       </span>
       <span className="text-xs font-medium mt-1.5 opacity-75">{label}</span>
@@ -187,7 +187,7 @@ export default async function CoursePage({ params }: Props) {
                 {uni && <span className="text-sm text-slate-400 bg-slate-100 px-2.5 py-1 rounded-lg">{uni.shortName}</span>}
                 {course.credits && <span className="text-sm text-slate-400 bg-slate-100 px-2.5 py-1 rounded-lg">{course.credits} credits</span>}
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                 {course.name}
               </h1>
               {dept && <p className="text-slate-400 text-sm mt-1">{dept.name}</p>}

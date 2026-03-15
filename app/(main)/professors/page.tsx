@@ -67,7 +67,7 @@ export default async function ProfessorsPage({ searchParams }: Props) {
       {/* Header */}
       <div className="mb-10">
         <p className="section-label mb-3">All faculty</p>
-        <h1 className="text-4xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Poppins, sans-serif' }}>
+        <h1 className="text-4xl font-bold text-slate-900 mb-3" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
           Professor Reviews
         </h1>
         <p className="text-slate-500 max-w-xl text-base">

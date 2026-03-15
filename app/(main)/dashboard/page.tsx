@@ -81,7 +81,7 @@ export default async function DashboardPage() {
               {session.user.name?.[0]?.toUpperCase() ?? 'U'}
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-900" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              <h1 className="text-2xl font-bold text-slate-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
                 {session.user.name ?? 'My Dashboard'}
               </h1>
               <p className="text-slate-500 text-sm mt-0.5">{session.user.email}</p>
